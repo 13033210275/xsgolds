@@ -1,0 +1,357 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <ul class="tab">
+        <li><a href="javascript:">基本信息</a></li>
+        <li><a href="javascript:">贷款描述</a></li>
+        <li><a href="javascript:">贷款细节</a></li>
+        <li><a href="javascript:">佣金提成系数</a></li>
+        <li><a href="javascript:">其它</a></li>
+    </ul>
+    <form action="{:url()}" method="post" class="form-horizontal">
+        <div class="tabcon">
+            <div class="form-item">
+                <label class="item-label">机构名称 <span class="check-tips">（例如：快联贷）</span></label>
+                <div class="controls">
+                    <input type="text" class="text" name="name" value="{$row.name}">
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">类型 </label>
+                <div class="controls">{$typeRadio}</div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">归属类别 </label>
+                <div class="controls"><p id="lb">{$cateSelect}</p></div>
+            </div> 
+            <div class="form-item">
+                <label class="item-label">专题类别 </label>
+                <div class="controls"><p id="zt">
+                    {if condition="$row.type eq 1"}
+                    {$loanZtSelect}
+                    {else /}
+                    {$creditZtSelect}
+                    {/if}
+
+                </p></div>
+            </div> 
+            <div class="form-item ">
+                <label class="item-label">专题内排序<span class="check-tips">（从小到大排序，越小越靠前）</span></label>
+                <div class="controls">
+                    <input type="text" class="text wd80" name="zt_rise" value="{$row.zt_rise}">
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">首页推荐 <span class="check-tips">（推荐到首页显示）</span></label>
+                <div class="controls" id="recom">{$indexRadio}</div> 
+            </div> 
+
+            <div class="form-item tabshow">
+                <label class="item-label">子排序 <span class="check-tips">（首页推荐中的机构排序）</span></label>
+                <div class="controls"><input type="text" class="text wd80" name="sub_rise" value="{$row.sub_rise}" /></div> 
+            </div> 
+            <div class="form-item tabshow">
+                <label class="item-label">额度/放款时间/通过率 <span class="check-tips">（根据所选择的专题分类对应填写）</span></label>
+                <div class="controls"><input type="text" class="text input-large" name="txt" value="{$row.txt}" /></div> 
+            </div> 
+
+
+            <div class="form-item">
+                <label class="item-label">机构LOGO <span class="red">*</span> <span class="check-tips">（建议大小：100*100像素）</span></label>
+                <div class="controls"> 
+                    <input type="file" id="upload_picture_logo">
+                    <input type="hidden" name="logo" id="cover_id_logo" value="{$row.logo}" />
+                    <div class="upload-img-box">
+                        {notempty name="$row.logo"}
+                            <div class="upload-pre-item"><img src="{$row.logo|get_cover='path'}"/></div>
+                        {/notempty}
+                    </div> 
+                    <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_picture_logo").uploadify({
+                        "height"          : 30,
+                        "swf"             : "__PUBLIC__/static/uploadify/uploadify.swf",
+                        "fileObjName"     : "download",
+                        "buttonText"      : "上传图片",
+                        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width"           : 120,
+                        'removeTimeout'   : 1,
+                        'fileTypeExts'    : '*.jpg;*.jpeg; *.png; *.gif;*.jpeg;',
+                        "onUploadSuccess" : uploadLogo,
+                        'onFallback' : function() {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadLogo(file, data){
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if(data.status){
+                            $("#cover_id_logo").val(data.id);
+                            src = data.url || '__ROOT__' + data.path
+                            $("#cover_id_logo").parent().find('.upload-img-box').html(
+                                '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                            );
+                        } else {
+                            updateAlert(data.info);
+                            setTimeout(function(){
+                                $('#top-alert').find('button').click();
+                                $(that).removeClass('disabled').prop('disabled',false);
+                            },1500);
+                        }
+                    }
+                    </script> 
+                </div>
+            </div>
+
+
+            <div class="form-item">
+                <label class="item-label">宣传Banner <span class="check-tips">（建议大小：640*300像素）</span></label>
+                <div class="controls"> 
+                    <input type="file" id="upload_picture_img">
+                    <input type="hidden" name="img" id="cover_id_img" value="{$row.img}" />
+                    <div class="upload-img-box">
+                        {notempty name="$row.img"}
+                            <div class="upload-pre-item"><img src="{$row.img|get_cover='path'}"/></div>
+                        {/notempty}
+                    </div> 
+                    <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_picture_img").uploadify({
+                        "height"          : 30,
+                        "swf"             : "__PUBLIC__/static/uploadify/uploadify.swf",
+                        "fileObjName"     : "download",
+                        "buttonText"      : "上传图片",
+                        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width"           : 120,
+                        'removeTimeout'   : 1,
+                        'fileTypeExts'    : '*.jpg; *.jpeg; *.png; *.gif;*.jpeg;',
+                        "onUploadSuccess" : uploadPictureimg,
+                        'onFallback' : function() {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadPictureimg(file, data){
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if(data.status){
+                            $("#cover_id_img").val(data.id);
+                            src = data.url || '__ROOT__' + data.path
+                            $("#cover_id_img").parent().find('.upload-img-box').html(
+                                '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                            );
+                        } else {
+                            updateAlert(data.info);
+                            setTimeout(function(){
+                                $('#top-alert').find('button').click();
+                                $(that).removeClass('disabled').prop('disabled',false);
+                            },1500);
+                        }
+                    }
+                    </script> 
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">标签 <span class="check-tips">（显示在列表页中的标签）</span></label>
+                <div class="controls">{$labelCheckbox}</div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">综合排序<span class="check-tips">（从小到大排序，越小越靠前）</span></label>
+                <div class="controls">
+                    <input type="text" class="text wd80" name="rise" value="{$row.rise}">
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">机构链接 <span class="check-tips">（http://URL地址)</span></label>
+                <div class="controls"> 
+                    <input type="text" class="text input-large" name="url"  value="{$row.url}"> 
+                </div>
+            </div>
+             
+            <div class="form-item">
+                <label class="item-label">状态<span class="check-tips">（禁用则不显示）</span></label>
+                <div class="controls">
+                    {$statusRadio}
+                </div>
+            </div>
+        </div>
+
+        <div class="tabcon">
+            <div class="form-item">
+                <label class="item-label">贷款额度 <span class="check-tips">单位为：元</span></label>
+                <div class="controls">
+                    <input type="text" class="text wd100" name="min_cash" value="{$row.min_cash}"> 至
+                    <input type="text" class="text wd100" name="max_cash" value="{$row.max_cash}"> 元
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">贷款期限 <span class="check-tips">贷款多长时间</span></label>
+                <div class="controls">
+                    <input type="text" class="text wd100" name="min_date" value="{$row.min_date}">
+                    至
+                    <input type="text" class="text wd100" name="max_date" value="{$row.max_date}">
+                    {$minUnitSelect}
+
+                </div>
+            </div> 
+
+             <div class="form-item">
+                <label class="item-label">贷款利率 <span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text wd100" name="min_rate" value="{$row.min_rate}"> % 至
+                    <input type="text" class="text wd100" name="max_rate" value="{$row.max_rate}"> %
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">所需材料 </label>
+                <div class="controls">
+                    {$fileCheckbox} 
+            <!--         <input type="text" class="text wd80" name="tmp_cl" value=""> 
+                    <input type="button" class="btn" value="新增">  -->
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">产品简单描述 <span class="check-tips">（20字以内）</span></label>
+                <div class="controls"> 
+                    <input type="text" class="text input-large" name="adv_txt"  value="{$row.adv_txt}"> 
+                </div>
+            </div> 
+            <div class="form-item">
+                <label class="item-label">产品详细描述 <span class="check-tips">（显140字以内）</span></label>
+                <div class="controls">
+                    <textarea class="textarea wd500 h60"  name="contents">{$row.contents}</textarea>
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">产品优势 <span class="check-tips">（显140字以内）</span></label>
+                <div class="controls">
+                    <textarea class="textarea  wd500 h60" name="youshi">{$row.youshi}</textarea>
+                </div>
+            </div> 
+        </div>
+
+        <div class="tabcon">
+            
+             <div class="form-item">
+                <label class="item-label">申请条件 <span class="check-tips">（显200字以内）</span></label>
+                <div class="controls">
+                    <textarea class="textarea wd500 h60"  name="apply_tj">{$row.apply_tj}</textarea>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">借款用途 </label>
+                <div class="controls">
+                    {$madeCheckbox} 
+     <!--                <input type="text" class="text wd80" id="yongtu" value=""> 
+                    <input type="button" class="btn" value="新增">  -->
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">面向人群<span class="check-tips"></span></label>
+                <div class="controls">
+                     {$peopleCheckbox}
+                </div>
+            </div>
+          
+            <div class="form-item">
+                <label class="item-label">审核方式 <span class="check-tips"></span></label>
+                <div class="controls">{$passRadio}</div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">到账方式 <span class="check-tips">（20字以内）</span></label>
+                <div class="controls"> 
+                    <input type="text" class="text input-large" name="get_type"  value="{$row.get_type}"> 
+                </div>
+            </div> 
+            <div class="form-item">
+                <label class="item-label">还款方式 <span class="check-tips"></span></label>
+                <div class="controls">{$getbackRadio}</div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">所属平台 <span class="check-tips">（20字以内）</span></label>
+                <div class="controls"> 
+                    <input type="text" class="text input-large" name="platform"  value="{$row.platform}"> 
+                </div>
+            </div> 
+             
+        </div>
+
+        <div class="tabcon"> 
+            <div class="form-item">
+                <label class="item-label">A提成系数:<span class="check-tips"></span></label>
+                <div class="controls"> 
+                    <input type="text" class="text wd80" name="aper" value="{$row.aper}" style="text-align: right"> %
+                </div>
+            </div> 
+    
+            <div class="form-item">
+                <label class="item-label">S提成系数:<span class="check-tips"></span></label>
+                <div class="controls"> 
+                    <input type="text" class="text wd80" name="sper" value="{$row.sper}" style="text-align: right"> %
+                </div>
+            </div> 
+            <label class="item-label"><span class="check-tips">机构佣金计算公式：注册数*定价（A）+放款金额*百分比系数（S）</span></label>
+            <label class="item-label"><span class="check-tips">注：仅统计注册量或者放款金额时，另一个填写0即可。</span></label>
+        </div>
+
+        <div class="tabcon"> 
+
+            <div class="form-item">
+                <label class="item-label">贷款提醒小贴士 <span class="check-tips"></span></label>
+                <div class="controls">
+                    <textarea class="textarea  wd500 h60" name="tips" >{$row.tips}</textarea>
+                </div>
+            </div> 
+        </div>
+
+
+        <div class="form-item mar_top_10 cls">
+            <input type="hidden" name="id" value="{$row.id}">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Merchant/index')}');
+        tab('.tab li','curr','.tabcon',0);
+
+
+        var loanZt = '{$loanZtSelect}';
+        var creditZt = '{$creditZtSelect}';
+        var loanType = '{$cateSelect}';
+        var creditType = '{$creditCateSelect}';
+
+
+        $('.type').on('click',function(event) {
+            var type = $(this).val();
+            if(type==1){
+                $("#zt").html(loanZt);
+                $("#lb").html(loanType);
+            }else{
+                $("#zt").html(creditZt);
+                $("#lb").html(creditType);
+            }
+        });
+
+
+        $("#recom input").click(function(event) {
+             if($(this).val()==1){
+                 $('.tabshow').show();
+             }else{
+                $('.tabshow').hide();
+             }
+        }); 
+
+    </script>
+{/block}

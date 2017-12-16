@@ -1,0 +1,30 @@
+{
+	'error': 0,
+    'message':'',
+    'data': [
+        {
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		},
+		{
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		},
+		{
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		},
+		{
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		},
+		{
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		},
+		{
+			'title':'中信银行',
+			'img':'static/images/ka.png'
+		}
+    ]
+}

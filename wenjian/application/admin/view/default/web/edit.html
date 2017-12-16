@@ -1,0 +1,43 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="{:url()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">商家名称 <span class="check-tips">（机构名称）</span></label>
+            <div class="controls">{$row.mert.name}
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">用户评分 <span class="check-tips">（用户所有评分的平均分,满分5分）</span></label>
+            <div class="controls">{$row.user_score}
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">平台评分 <span class="check-tips">（平台打分，满分5分）</span></label>
+            <div class="controls">
+                <input type="text" class="text wd80" name="sys_score" value="{$row.sys_score}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">是否启用平台评分<span class="check-tips"></span></label>
+            <div class="controls">
+                {$statusRadio}
+            </div>
+        </div>
+
+        <div class="form-item mar_top_10">
+            <input type="hidden" name="id" value="{$row.id}">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">更 新</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Web/index')}');
+    </script>
+{/block}

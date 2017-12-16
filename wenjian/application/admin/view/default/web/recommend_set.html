@@ -1,0 +1,61 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+		<h2>信用卡链接配置列表</h2>
+	</div>
+
+	<div class="cf">
+		<div class="fl">
+            <a class="btn" href="{:url('credit_link')}">新 增</a>
+            <button class="btn ajax-post confirm" url="{:url('changeStatus?method=deleterecommend')}" target-form="ids">删 除</button>
+        </div>
+	</div>
+
+
+	<!-- 数据列表 -->
+    <div class="data-table table-striped">
+		<table class="">
+		    <thead>
+		        <tr>
+					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+					<th class="">用户ID</th>
+					<th class="">手机号码</th>
+					<th class="">配置推荐页左入口地址</th>
+					<th class="">状态</th>
+					<th class="">操作</th>
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="list"}
+				{volist name="list" id="vo"}
+				<tr>
+		            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+					<td>{$vo.id} </td>
+					<td><span>{$vo.mobile}</span></td>
+					<td>{$vo.link}</td>
+					<td>{$vo.status?'开启':'禁用'}</td>
+					<td>{eq name="vo.status" value="1"}
+						<a href="{:url('Web/changeStatus?method=forbidrecommend&id='.$vo['id'])}" class="ajax-get">禁用</a>
+						{else/}
+						<a class="red" href="{:url('Web/changeStatus?method=resumerecommend&id='.$vo['id'])}" class="ajax-get">启用</a>
+						{/eq} |
+						<a href="{:url('Web/credit_link?id='.$vo['id'])}">编辑</a> |
+		                <a href="{:url('Web/changeStatus?method=deleterecommend&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+		            </td>
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="9" class="text-center"> Oh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+	</div>
+
+	<div class="page fr">
+	        {$page}
+	</div>
+
+{/block}
+
+

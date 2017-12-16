@@ -1,0 +1,102 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf">  
+		<div class="search-form ">
+			<form action="{:url()}" method="get" id="form">
+				<div class="sleft">
+					时间： <input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd120" value="{:input('sdate')}" placeholder=""> 
+				</div>
+				<div class="fl search-line">-</div>
+				<div class="sleft">
+					<input type="text" name="edate" id="edate" class="search-input laydate-icon wd120" value="{:input('edate')}" placeholder=""> 
+				</div> 
+				<div class="sleft">
+					会员名： <input type="text" name="user_name"  class="search-input  wd120" value="{:input('user_name')}" placeholder=""> 
+				</div>
+				<div class="sleft">
+					机构： <input type="text" name="mert_name"  class="search-input  wd120" value="{:input('mert_name')}" placeholder=""> 
+				</div>
+				<div class="fl">
+					<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}">搜索</a>
+	            	<button class="fl btn export" url="{$exportUrl}" target-form="ids">导出</button>
+
+				</div> 
+			</form>
+ 
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">时间</th>
+			<th class="">推荐人</th>
+			<th class="">机构</th>
+			<th class="">一级申请量</th>
+			<th class="">一级放款金额</th> 
+			<th class="">一级佣金</th>
+			<th class="">二级放款金额</th>
+			<th class="">二级佣金</th> 
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.date} </td>
+			<td>{$vo.rec_uname}</td>
+			<td>{$vo.mert.name}</td>
+			<td>¥ {$vo.apply_num}</td>
+			<td>¥ {$vo.loan_cash}</td>
+			<td>¥ {$vo.commission_cash}</td>
+			<td>¥ {$vo.sec_loan}</td>
+			<td>¥ {$vo.sec_commission}</td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+
+	 
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		$("#form").submit();
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    
+
+     laydate({
+	  elem: '#sdate', 
+	  event: 'focus' 
+	});
+	laydate({
+	  elem: '#edate',
+	  event: 'focus' 
+	});
+
+
+	</script>
+{/block}

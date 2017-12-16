@@ -1,0 +1,38 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="{:url()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">左入口名称: <span class="red">*</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="leftName" value="{$row['leftName']}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">左入口原始链接: <span class="red">*</span> </label>
+            <div class="controls">
+                <input type="text" class="text" name="leftUrl" value="{$row['leftUrl']}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">右入口名称: <span class="red">*</span> </label>
+            <div class="controls">
+                <input type="text" class="text" name="rightName" value="{$row['rightName']}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">右入口原始链接: <span class="red">*</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="rightUrl" value="{$row['rightUrl']}">
+            </div>
+        </div>
+        <div class="form-item mar_top_10">
+            <button class="btn submit-btn" type="submit" target-form="form-horizontal">更新</button>
+            <button class="btn btn-return" type="reset">重置</button>
+        </div>
+    </form>
+{/block}

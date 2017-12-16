@@ -1,0 +1,53 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+<!-- 	<div class="cf">  
+		<div class="fl">
+            <a class="btn" href="{:url('zuantiAdd')}">新 增</a> 
+        </div>
+	</div> -->
+	
+
+	<!-- 数据列表 -->
+    <div class="data-table table-striped">
+		<table class="">
+		    <thead>
+		        <tr>
+					<th >编号</th>
+					<th class="">专题名称</th>
+					<th class="">描述</th>  
+					<th class="">排序</th> 
+					<th class="">操作</th> 
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="list"}
+				{volist name="list" id="vo"}
+				<tr>
+					<td>{$vo.id} </td> 
+					<td>{$vo.zt_name}</td>
+					<td><span>{$vo.shortdesc}</span></td>  
+					<td>{$vo.rise}</td>
+					<td> 
+						<a href="{:url('zuantiEdit?id='.$vo['id'])}">编辑</a> | 
+		                <a href="{:url('changeStatus?method=deleteZt&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+		            </td>
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="7" class="text-center"> Oh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+	</div>
+
+	<div class="page fr">
+	        {$page}
+	</div>
+
+{/block}
+
+ 

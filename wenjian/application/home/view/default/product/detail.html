@@ -1,0 +1,68 @@
+{extend name="base/common"/}
+
+ 
+ 
+{block name="body"} 
+<div id="Detail" class="Detail" v-if="data">
+    <div class="detBan">
+        <img :src="data.img" :alt="data.name" />
+    </div>
+    <div class="main" v-cloak>
+        <div class="box">
+            <div class="tw">
+                <img :src="data.logo" :alt="data.name">
+                <div class="tx">
+                    <h3>{{data.name}}</h3>
+                    <p>{{data.shortdesc}}</p>
+                </div>
+            </div>
+            <div class="itemTag">
+                <span v-for="tag in data.tag">{{tag}}</span>
+            </div>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>贷款说明</h3>
+            <p class="tx">贷款额度：{{data.min_cash+'-'+data.max_cash+'元'}}</p>
+            <p class="tx">贷款期限：{{data.min_date+'-'+data.max_date+data.min_day_unit}}</p>
+            <p class="tx">贷款利率：{{data.rate}}</p>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>申请条件</h3>
+            <p class="tx"  v-html="data.apply_tj"></p>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>所需资料</h3>
+            <p class="itemTag">
+                <span class="off" v-for="tag in data.cailiao">{{tag}}</span>
+            </p>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>贷款细节</h3>
+            <p class="tx">借口用途：{{data.use_area ? data.use_area.join("/"):''}}</p>
+            <p class="tx">面向人群：{{data.to_people ? data.to_people.join("/"):''}}</p>
+            <p class="tx">审核方式：{{data.pass_type}}</p>
+            <p class="tx">到账方式：{{data.get_type}}</p>
+            <p class="tx">还款方式：{{data.back_type}}</p>
+            <p class="tx">所属平台：{{data.platform}}</p>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>产品优势</h3>
+            <p class="tx" v-html="data.youshi"></p>
+        </div>
+        <div class="box">
+            <h3 class="ti"><b></b>小树Golds小贴士</h3>
+            <p class="tx" v-html="data.tips"></p>
+        </div>
+    </div>
+    <div class="btm" v-cloak>
+        <p class="btn le"><a href="{:url('comment/index',['id'=>$id])}">评论({{data.comment_num}}条)</a></p>
+        <p class="btn ri" data-href="{:url('apply',['id'=>$id])}" v-on:click="tongji($event)">申请</p>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var proId =  {$id};
+</script>
+<script type="text/javascript" src="/static/home/js/detail.js"></script>
+{/block}

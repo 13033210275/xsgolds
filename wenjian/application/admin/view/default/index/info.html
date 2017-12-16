@@ -1,0 +1,23 @@
+
+
+{extend name="public/base" /}
+
+<!-- 子导航 -->
+{block name="sidebar"}
+    {include file="index/sidemenu" /}
+{/block}
+
+{block name="body"}
+    <div class="wait">
+        <div class="wait_title">待办事务列表</div>
+        <div class="wait_con">
+            <a href="{:url("web/unpost")}">
+                <span> {$num}</span>
+                <i>待审核评论数</i>
+            </a>
+        </div>
+    </div>
+{/block}
+
+
+ 

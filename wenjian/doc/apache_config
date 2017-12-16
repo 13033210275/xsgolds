@@ -1,0 +1,63 @@
+apache 配置
+
+以mac为例子
+sudo vim /etc/apache2/httpd.conf
+找到 libexec/apache2/mod_rewrite.so 把前面的#去掉
+找到 <Directory /> 看到规则修改成
+<Directory />
+    Options FollowSymLinks
+    AllowOverride None
+    Order deny,allow
+    Allow from all
+</Directory>
+找到 <Directory "/Library/WebServer/Documents"> 下面有个  AllowOverride
+修改为  AllowOverride All
+找到Include /private/etc/apache2/extra/httpd-vhosts.conf 把前面的#去掉
+
+
+保存
+
+执行 sudo vim /etc/apache2/extra/httpd-vhosts.conf
+
+更改里面的值
+<VirtualHost 127.0.0.1:80>
+    ServerAdmin webmaster@dummy-host.example.com #随便填
+    DocumentRoot "/Library/WebServer/Documents/public/" #这个目录要到public
+    ServerName www.liweicg.com  #虚拟域名
+    ErrorLog "/Library/WebServer/Documents/log/error.log" #log 输出地址
+    CustomLog "/Library/WebServer/Documents/log/access.log" common   #log 输出
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot "/Library/WebServer/Documents/public/"
+    ServerName localhost
+    ErrorLog "/Library/WebServer/Documents/log/error.log"
+    CustomLog "/Library/WebServer/Documents/log/access.log" common
+</VirtualHost>
+
+<VirtualHost 127.0.0.1:80>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot "/Library/WebServer/Documents/public/index.php"  #这个目录要到public/index.php
+    ServerName www.liweicg.com/home #虚拟域名加home
+    ErrorLog "/Library/WebServer/Documents/log/error.log"
+    CustomLog "/Library/WebServer/Documents/log/access.log" common
+</VirtualHost>
+
+#确保Log所在文件夹存在
+#保存
+
+sudo vim /etc/hosts
+
+增加
+127.0.0.1       www.liweicg.com
+127.0.0.1       www.liweicg.com/home
+
+
+#重启apache
+
+
+#有些文件不存在的，明天再找人要吧
+
+
+#前端配置

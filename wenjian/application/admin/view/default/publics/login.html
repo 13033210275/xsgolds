@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎您登录小树Golds</title>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/login.css" media="all">
+       	<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/{$Think.config.COLOR_STYLE}.css" media="all">
+    </head>
+    <body>
+        <div id="main-content">
+            <div class="login-banner"></div>
+            <!-- 主体 -->
+            <div class="login-body">
+                <div class="login-main pr">
+                    <form action="" method="post" class="login-form">
+                        <h3 class="welcome"><i class="login-logo"></i></h3>
+                        <div id="itemBox" class="item-box">
+                            <div class="item">
+                                <i class="icon-login-user"></i>
+                                <input type="text" name="phone" id="phone" placeholder="手机号" autocomplete="off" />
+                            </div>
+                            <span class="placeholder_copy placeholder_un">手机号</span>
+                            <div class="item b0">
+                                <i class="icon-login-pwd"></i>
+                                <input type="password" name="password" id="password" placeholder="密码" autocomplete="off" />
+                            </div>
+                            <span class="placeholder_copy placeholder_pwd">密码</span>
+                            <div class="item verifycode">
+                                <i class="icon-login-verifycode"></i>
+                                <input type="text" name="verify" id="verify" placeholder="验证码" autocomplete="off">
+                                <a class="reloadverify" title="发送验证码" href="javascript:void(0)">获取验证码</a>
+                            </div>
+                            <span class="placeholder_copy placeholder_check">验证码</span>
+                           
+                        </div>
+                        <div class="login_btn_panel"> 
+                            <button class="login-btn" type="button">
+                                <span class="in"><i class="icon-loading"></i>登 录 中 ...</span>
+                                <span class="on">登 录</span>
+                            </button>
+                            <div class="check-tips"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+	<!--[if lt IE 9]>
+    <script type="text/javascript" src="__PUBLIC__/static/jquery-1.10.2.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__PUBLIC__/static/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
+    <script type="text/javascript" src="__PUBLIC__/static/layer/layer.js"></script>
+
+    <script type="text/javascript">
+
+    function isPhone(phone){
+            return true;
+    }
+
+    	/* 登陆表单获取焦点变色 */
+    	$(".login-form").on("focus", "input", function(){
+            $(this).closest('.item').addClass('focus');
+        }).on("blur","input",function(){
+            $(this).closest('.item').removeClass('focus');
+        });
+
+    	//表单提交
+    	$(document)
+	    	.ajaxStart(function(){
+	    		$("button:submit").addClass("log-in").attr("disabled", true);
+	    	})
+	    	.ajaxStop(function(){
+	    		$("button:submit").removeClass("log-in").attr("disabled", false);
+	    	});
+
+    	$(".login-btn").click(function(){
+    		var self = $(".login-form");
+            var phone = $('#phone').val(),
+                passwd = $('#password').val(),
+                code = $('#verify').val();
+            if(!isPhone(phone)){
+                layer.msg('请输入正确的手机号');
+                return false;
+            }
+//            if(passwd=='' || passwd.length<5){
+//                layer.msg('请输入至少5位密码');
+//                return false;
+//            }
+//            if(code=='' || code.length!=6){
+//                layer.msg('请输入手机验证码');
+//                return false;
+//            }
+
+    		$.post("{:url('login')}", self.serialize(), function(data){
+                if(data.code){
+                    window.location.href = data.url;
+                } else {
+                    layer.msg(data.msg);
+                     
+                }
+            }, "json");
+    		return false;
+            
+    	});
+
+		$(function(){
+
+			//初始化选中用户名输入框
+			$("#itemBox").find("input[name=username]").focus();
+
+			//获取验证码
+			var issend = false,countdown = 60;
+            $(".reloadverify").click(function(){ 
+                 if(issend){ 
+                    return ;
+                 }
+
+                 var key = $("#key").val(),
+                     phone = $("#phone").val();
+                     console.log(phone,isPhone(phone));
+                if(!isPhone(phone)){
+                    layer.msg('请输入正确的手机号');
+                    return false;
+                }
+                 $.post('{:url("send")}', {'key':"{$key}",'phone':phone}, function(data) {
+                      if(data.code){
+                         issend = true; 
+                         $('.reloadverify').addClass("send");
+                         settime();
+                      }else{
+                         layer.msg(data.msg);
+                      }
+                 },'json'); 
+            });
+            
+    
+
+            function settime() { //发送验证码倒计时
+                if (countdown == 0) { 
+                    countdown = 60; 
+                    issend = false;
+                    $('.reloadverify').removeClass("send");
+                    $('.reloadverify').text("获取验证码");
+                    return;
+                } else { 
+                    $('.reloadverify').text(countdown+'秒后重发');
+                    countdown--; 
+                    issend = true;
+                } 
+                setTimeout(function() { 
+                    settime();
+                } ,1000) 
+            }
+
+
+
+            //placeholder兼容
+                //如果支持 
+            function isPlaceholer(){
+                var input = document.createElement('input');
+                return "placeholder" in input;
+            }
+                //如果不支持
+            if(!isPlaceholer()){
+                $(".placeholder_copy").css({
+                    display:'block'
+                })
+                $("#itemBox input").keydown(function(){
+                    $(this).parents(".item").next(".placeholder_copy").css({
+                        display:'none'
+                    })                    
+                })
+                $("#itemBox input").blur(function(){
+                    if($(this).val()==""){
+                        $(this).parents(".item").next(".placeholder_copy").css({
+                            display:'block'
+                        })                      
+                    }
+                })
+                
+                
+            }
+		});
+    </script>
+</body>
+</html>

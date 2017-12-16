@@ -1,0 +1,39 @@
+{extend name="base/common"/}
+
+ 
+ 
+{block name="body"} 
+<div class="comment" id="comment">
+    <div class="base">
+        <div class="hp">
+            <img src="/static/home/images/hp.png" alt="" />
+            <p>{$row.nickname}</p>
+        </div>
+        <div class="status">
+            <h4>借款状态：</h4>
+            <div class="itemTag" v-cloak>
+                <span :class="type==item.val ? '':'off'" :data-val="item.val" v-for="item in type_data" v-on:click="typeFun($event)">{{item.text}}</span>
+            </div>
+        </div>
+        <div class="mui-input-row" v-if="type==2||type==3" v-cloak><label>获得额度：</label> <input type="text" placeholder="请输入获得额度（单位为元）" v-on:input="cashFun"></div>
+        <div class="star">
+            产品综合满意度：
+            <b  v-for="(i,index) in parseInt(stars)" v-on:click="selectStar($event)" :data-index="index" class="mui-icon mui-icon-star-filled color"></b>
+            <b v-for="(i,index) in (5-parseInt(stars))" v-on:click="selectStar($event,index)" :data-index="(stars+index)" class="mui-icon mui-icon-star-filled"></b>
+        </div>
+    </div>
+    <div class="text">
+        <textarea v-on:input="textInput($event)" id="textarea" rows="7" placeholder="请输入评论"></textarea>
+        <p class="limit" v-cloak>{{text.length}}/{{max}}字</p>
+    </div>
+    <div class="Btn">
+        <button type="button" class="mui-btn mui-btn-block" v-on:click="postIt">提&nbsp;&nbsp;交</button>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var proId = {$id};
+</script>
+<script type="text/javascript" src="__PUBLIC__/home/js/comment.js"></script>
+{/block}

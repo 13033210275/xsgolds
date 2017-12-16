@@ -1,0 +1,214 @@
+{extend name="base/common"/}
+
+{block name="body"}
+<div class="login" id="register">
+
+    <form>
+        <div class="mui-input-row">
+            <label>手机号：</label>
+            <input type="text" v-on:blur="testPhone($event)" placeholder="请输入您的手机号">
+        </div>
+        <div class="mui-input-row">
+            <label>验证码：</label>
+            <input type="number" placeholder="请输入验证码" v-on:input="inCode($event)">
+            <span :class="getting ? 'get off':'get'" id="get" v-on:click="getCode">{{getting ? (times+'s'):'获取'}}</span>
+        </div>
+        <div class="mui-input-row">
+            <label>设置密码：</label>
+            <input type="password" v-on:blur="setpass($event)" class="mui-input-password" placeholder="必须为数字加字母，6到13位">
+        </div>
+        <div class="mui-input-row">
+            <label>密码确认：</label>
+            <input type="password" v-on:blur="passag($event)" class="mui-input-password" placeholder="请与第一次输入的密码保持一致">
+        </div>
+        <div class="mui-input-row" v-cloak v-if="!sid">
+            <label>推荐人(选填)：</label>
+            <input type="text" v-on:blur="man($event)" placeholder="请输入您推荐人的手机号码">
+        </div>
+
+        <div class="Btn">
+            <button type="button" class="mui-btn-block" v-on:click="reg">注册</button>
+        </div>
+        <div class="forget">
+            <a href="/home/login?u={$u}">密码登录</a>
+            <span>|</span>
+            <a href="/home/login?u={$u}&way=code">短信登录</a>
+        </div>
+    </form>
+</div>
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    var u='{$u}';
+    var sor_code='{$sor_code}';
+    var key='{$key}';
+    var passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,13}$/;
+    var register = new Vue({
+        el: '#register',
+        data:{
+            key:key,
+            code:'',
+            getting:false,
+            number:'',
+            times:60,
+            codeUrl:window.Apis.getCode,
+            regUrl:window.Apis.register,
+            fm:'',
+            sid:''
+        },
+        methods:{
+            getCode:function(){
+                if(this.getting || !this.isnumber) return;
+                var that = this;
+                this.$http.post(that.codeUrl,{key:this.key,phone:this.number,fm:'reg'}).then(function(json){
+                    var data = json.data;
+                    if(data.error != 0){
+                        mui.toast(data.message);
+                        return;
+                    }
+                    else{
+                        that.getting = true;
+                        that.interval();
+                    }
+                })
+            },
+            testPhone:function(e){
+                var number = e.target.value;
+                if(!(/^1(3|4|5|7|8)\d{9}$/.test(number))){
+                    //mui.toast('手机号不正确！');
+                    this.isnumber = false;
+                }
+                else{
+                    this.isnumber = true;
+                    this.number = number;
+                }
+            },
+            setpass:function(e){
+                var passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,13}$/;
+                if(!passwordReg.test(e.target.value)){
+                    //mui.toast('密码不符合规则！');
+                    this.ispassword = false;
+                }
+                else{
+                    this.ispassword = true;
+                }
+                this.password = e.target.value;
+            },
+            passag:function(e){
+                if(e.target.value != this.password){
+                    //mui.toast('两次密码不一致！');
+                }
+                this.passwordag = e.target.value;
+            },
+            interval:function(){
+                var that = this,
+                        times = 60;
+                var inter = window.setInterval(function(){
+                    times--;
+                    if(times==0){
+                        that.getting = false;
+                        window.clearInterval(inter);
+                    }
+                    else{
+                        that.times = times;
+                    }
+                },1000);
+            },
+            man:function(e){
+                var number = e.target.value;
+                if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(number))){
+                    //mui.toast('推荐人手机号不正确！');
+                    this.isrecom = false;
+                }
+                else{
+                    this.isrecom = true;
+                    this.recom = number;
+                }
+            },
+            inCode:function(e){
+                this.code = e.target.value;
+            },
+            reg:function(){
+                var that = this;
+                if(!this.isnumber){
+                    mui.toast('请输入正确的手机号！');
+                    return;
+                }
+                else if(this.code==''){
+                    mui.toast('请输入验证码！');
+                    return;
+                }
+                else if(!this.ispassword){
+                    mui.toast('密码必须为数字加字母，6到13位！');
+                    return;
+                }
+                else if(this.password != this.passwordag){
+                    mui.toast('两次输入密码不相同！');
+                    return;
+                }
+                else{
+                    var pdata = {
+                        phone:that.number,
+                        code:that.code,
+                        passwd:that.password,
+                        sor_code:sor_code
+                    };
+                    if(this.isrecom){
+                        pdata.recom = that.recom;
+                    }
+                    if(this.fm){
+                        pdata.fm = that.fm;
+                    }
+                    if(this.sid){
+                        pdata.sid = that.sid;
+                    }
+                    //分销推荐参数
+                    if(sessionStorage.getItem('recommend_sid')){
+                      pdata.sid = sessionStorage.getItem('recommend_sid');
+                    }
+                    this.$http.post(that.regUrl,pdata).then(function(json){
+                        var data = json.data;
+                        if(data.error != 0){
+                            mui.toast(data.message);
+                            return;
+                        }
+                        else{
+                            //成功则清除分销推荐参数
+                            sessionStorage.removeItem('recommend_product');
+
+                            mui.toast('注册成功，2秒后自动跳至首页');
+                            setTimeout(function(){
+                                //window.location.href =  '/';
+				//window.history.go(-2); //返回上一页
+                                if(u==''){
+                                    window.history.go(-2);
+                                }else {
+                                    window.location.href = u;
+                                }
+                            },2000);
+                        }
+                    })
+
+                }
+            },
+            GetQueryString:function(name){
+                var reg = new RegExp('(^|&)'+ name +'=([^&]*)(&|$)');
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]); return null;
+            }
+        },
+        mounted:function(){
+            this.fm = this.GetQueryString('fm');
+            var invite = this.GetQueryString('sid');
+            if(invite){
+                this.sid = invite;
+            }else{
+                this.sid = '{$sid}';
+            }
+        }
+    });
+</script>
+{/block} 
+

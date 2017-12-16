@@ -1,0 +1,180 @@
+{extend name="base/common"/}
+
+{block name="style"}
+ <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/ruler.css" />
+{/block}
+ 
+{block name="body"} 
+    <div class="mainBox">
+        <div class="match" id="match">
+            <div class="box">
+                <p>期限</p>
+                <div class="btns">
+                    <button type="button" :class="daySlt ? 'mui-btn on':'mui-btn'" v-on:click="changeTime">天</button>
+                    <button type="button" :class="!daySlt ? 'mui-btn on':'mui-btn'" v-on:click="changeTime">月</button>
+                </div>
+                <div :style="!daySlt ? 'visibility:hidden;height:0;overflow:hidden;':''" v-cloak>
+                    <p><span id="day">{{day}}</span></p>
+                    <div id='rulerDay'></div>
+                </div>
+                <div :style="daySlt ? 'visibility:hidden;height:0;overflow:hidden;':''" v-cloak>
+                    <p><span id="month">{{month}}</span></p>
+                    <div id='rulerMonth'></div>
+                </div>
+            </div>
+            <div class="box">
+                <p>我要借（元）</p>
+                <p><span id="money" v-cloak>{{money}}</span></p>
+                <div id='rulerMoney'></div>
+            </div>
+            <div class="Btn">
+              <button type="button" class="mui-btn mui-btn-block" v-on:click="goto">智能匹配</button>
+          </div>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/home/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/js/ruler.js"></script>
+<script type="text/javascript">
+  
+    var matchVue = new Vue({
+        el: '#match',
+        data:{
+            money:1000,
+            money2:1000,
+            day:7,
+            day2:7,
+            month:3,
+            month2:3,
+            daySlt:true,
+            dayRuler:'',
+            moneyRuler:'',
+            monthRuler:''
+        },
+        methods:{
+            rulersFun:function(){
+                var that = this;
+                this.dayRuler = new MeasureRuler({
+                    wrapperId:"rulerDay",
+                    max:30,
+                    minUnit:1,
+                    unitSet:10,
+                    mult:2,
+                    min:7,
+                    value:that.day,
+                    callback:that.rulerSetDay,
+                    callback2:that.rulerSetDay2
+                })
+                this.moneyRuler = new MeasureRuler({
+                    wrapperId:"rulerMoney",
+                    max:10000,
+                    min:500,
+                    minUnit:500,
+                    unitSet:10,
+                    mult:1,
+                    value:that.money,
+                    callback:that.rulerSetMoney
+                })
+                this.monthRuler = new MeasureRuler({
+                    wrapperId:"rulerMonth",
+                    max:48,
+                    minUnit:1,
+                    unitSet:10,
+                    mult:1,
+                    min:1,
+                    value:that.month,
+                    callback:that.rulerSetMonth,
+                    callback2:that.rulerSetMonth2
+                })
+            },
+            getBig:function(n,arr){
+                var _n = 0;
+                for(var i=0;i<arr.length;i++){
+                    if(n < arr[i]){
+                        _n = arr[i];
+                        break;
+                    }
+                }
+                return _n;
+            },
+            getSmall:function(n,arr){
+                var _n = 0;
+                for(var i=0;i<arr.length;i++){
+                    if(n < arr[i] && i != 0){
+                        _n = arr[i-1];
+                        break;
+                    }
+                }
+                return _n;
+            },
+            rulerSetDay:function(val){
+                this.day = val;
+            },
+            rulerSetDay2:function(val){
+                var arr = [7,14,21,30];
+                if(val > this.day2){
+                    var _n = this.getBig(val,arr);
+                    if(_n != 0){
+                        this.dayRuler.setIt(_n);
+                        this.day = _n;
+                        this.day2 = _n;
+                    }
+                }
+                else if(val < this.day2){
+                    var _n = this.getSmall(val,arr);
+                    if(_n != 0){
+                        this.dayRuler.setIt(_n);
+                        this.day = _n;
+                        this.day2 = _n;
+                    }
+                }
+            },
+            rulerSetMoney:function(val){
+                this.money = val;
+            },
+            rulerSetMonth:function(val){
+                this.month = val;
+            },
+            rulerSetMonth2:function(val){
+                var arr = [1,3,6,9,12,18,24,36,48];
+                if(val > this.month2){
+                    var _n = this.getBig(val,arr);
+                    if(_n != 0){
+                        this.monthRuler.setIt(_n);
+                        this.month = _n;
+                        this.month2 = _n;
+                    }
+                }
+                else if(val < this.month2){
+                    var _n = this.getSmall(val,arr);
+                    if(_n != 0){
+                        this.monthRuler.setIt(_n);
+                        this.month = _n;
+                        this.month2 = _n;
+                    }
+                }
+            },
+            changeTime:function(){
+                this.daySlt = this.daySlt ? false:true;
+            },
+            goto:function(){
+                var unit = this.daySlt ? '天':'月',
+                    day = this.daySlt ? this.day:this.month;
+                    tjid = this.daySlt ? 13:14;
+                var api = '../ajax/tongji?action_id='+tjid+'&record_id=' + day;
+                this.$http.post(api);
+                var url = '__URL__/index?' + 'day=' + day + '&unit=' + unit + '&cash=' + this.money;
+                setTimeout(function(){
+                   document.location.href = url; 
+                },200)
+                
+            }
+        },
+        mounted:function(){
+            this.rulersFun();
+        }
+    });
+</script>
+{/block}
+

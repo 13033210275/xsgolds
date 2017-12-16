@@ -1,0 +1,67 @@
+{extend name="base/common"/}
+
+{block name="style"}
+<link href="__PUBLIC__/home/css/credit.css" rel="stylesheet" />
+{/block}
+{block name="body"}
+<div class="mui-content">
+    <div class="letter_img">
+        <img src="__PUBLIC__/kashu/images/index_cards/banner.gif">
+    </div>
+
+    <div class="letter_credit">
+        <div class="letter_top">
+            <img src="__PUBLIC__/kashu/images/index_cards/jingxuan.png">
+            <span>精选卡</span>
+        </div>
+
+        <div id="card" class="letter_list" v-if="list" v-cloak>
+
+            <div class="letter_listThree" v-for="(item,index) in list">
+
+                <a :href="item.url" :data-id="item.id">
+                    <img src="__PUBLIC__/home/images/yhk1.jpg" v-if="index%3==0">
+                    <img src="__PUBLIC__/home/images/yhk2.jpg" v-else-if="index%3  == 2">
+                    <img src="__PUBLIC__/home/images/yhk3.jpg" v-else="index%3 == 1">
+                    <img class="letter_im" :src="item.img" :alt="item.title" />
+                    <div class="letter_span">{{item.title}}</div>
+                </a>
+
+             </div>
+
+        </div>
+    </div>
+
+    <div class="over"></div>
+
+    <div class="listing">
+        <div class="listing_top">
+            <img src="__PUBLIC__/kashu/images/index_cards/aijiaoyuanyou.png">
+        </div>
+
+        <div class="listing_list">
+            <div class="listing_listbox">
+                <div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/main.png"></div>
+                <div class="list_right">年费全免；开卡无需消费即享信用卡终身免年费。</div>
+            </div>
+
+            <div class="listing_listbox">
+                <div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/chuguo.png"></div>
+                <div class="list_right">出国无忧；境外交易货币转换优惠，外币消费，人民币还款。</div>
+            </div>
+
+            <div class="listing_listbox">
+                <div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/jifen.png"></div>
+                <div class="list_right">积分加倍；生日当天消费3倍积分，每月特权日消费3倍积分。</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/home/js/main.js?v=20170919"></script>
+{/block}

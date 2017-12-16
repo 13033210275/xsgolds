@@ -1,0 +1,53 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="{:url()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">机构编号<span class="red"></span><span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$row.id}" ONBLUR="check_merchant_id()" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">机构名称<span class="red"></span> <span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text" value="{$row.name}" disabled="disabled">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">推荐内容<span class="red"></span> <span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text" name="txt" value="{$row.txt}" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">排序<span class="check-tips">（从小到大排序，越小越靠前）</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="rise" value="{$row.rise}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">状态<span class="check-tips">（禁用则不显示）</span></label>
+            <div class="controls">
+                {$statusRadio}
+            </div>
+        </div>
+
+        <div class="form-item mar_top_10">
+            <input type="hidden" name="id" value="{$row.id}">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">更新</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:url('Web/merchant')}');
+    </script>
+{/block}

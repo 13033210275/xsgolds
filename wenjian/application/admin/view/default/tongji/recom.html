@@ -1,0 +1,92 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<style type="text/css">
+
+	.recom{}
+	.zero{  overflow:hidden; padding:0 10px;}
+	.zero li{ color:#96460e;}
+	.fist{border:1px solid #ccc; padding:10px 20px; overflow:hidden; }
+	.fist li{ color:#0932c1; }
+	.sec{ border:1px solid #ccc;padding:10px 20px; overflow: hidden; }
+	.sec li{ float: left; width:20%; color:#138828;}
+</style>
+<!-- 标题栏 -->
+<div class="main-title">
+	<h2>{$meta_title}</h2>
+</div>
+
+<div class="cf">
+	<div class="search-form ">
+		<form action="{:url()}" method="get" id="form">
+			<div class="sleft">
+				推荐人： <input type="text" name="wd" class="search-input  " value="" >
+			</div>
+			<div class="fl">
+				<button type="submit" style="border:none; cursor: pointer;;" class="sch-btn">搜索</button>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- 数据列表 -->
+<div class="data-table table-striped">
+	<table class="">
+		<thead>
+		<tr>
+			<th class="">用户名称</th>
+			<th class="">姓名</th>
+			<th class="">一级</th>
+			<th class="">二级</th>
+		</tr>
+		</thead>
+		<tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.rec_name} </td>
+			<td>{$vo.tru_name} </td>
+
+			<td><a href="javascript:"  class="view" data-id="{$vo.rec_id}" data-type="1">查看({$vo.num1})</a></td>
+			<td><a href="javascript:"  class="view" data-id="{$vo.rec_id}" data-type="2">查看({$vo.num2})</a></td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="3" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+		</tbody>
+	</table>
+</div>
+
+<div>
+	<div class="page fr">
+		{$_page}
+	</div>
+</div>
+
+{/block}
+
+{block name="script"}
+
+<script type="text/javascript">
+	highlight_subnav('{:url('Tongji/recom')}');
+	$('.view').click(function(event) {
+		var id = $(this).data('id');
+		var type = $(this).data('type');
+		console.log(type);
+		$.post('{:url("recom")}', {'type': type,'id':id,'cmd':'view'}, function(json) {
+			if(json.error==0){
+				var box = layer.open({
+					title:json.data.title,
+					type: 1,
+					skin: 'layui-layer-rim', //加上边框
+					area: ['600px', '400px'], //宽高
+					content: json.data.content
+				});
+			}
+		},'json');
+	});
+
+</script>
+{/block}
+

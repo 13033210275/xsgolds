@@ -1,0 +1,41 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="" enctype="application/x-www-form-urlencoded" method="POST"
+            class="form-horizontal" id="form">
+
+        <div class="form-item">
+            <label class="item-label">一级提成系数<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text wd80" name="firper" value="{$data.rate}" > %
+            </div>
+        </div>
+
+         <div class="form-item">
+            <label class="item-label">二级提成系数<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text wd80" name="secper"  value="{$data.sec_rate}" > %
+            </div>
+        </div>
+        <label class="item-label"><span class="check-tips">个人分销佣金提成计算公式：</span></label>
+        <label class="item-label"><span class="check-tips">一级：一级机构佣金*一级提成系数</span></label>
+        <label class="item-label"><span class="check-tips">二级：二级机构佣金*一级提成系数*二级提成系数</span></label>
+
+
+        <div class="form-item">
+            <br/>
+            <button type="button" id="submit" data-url="{:url()}" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Member/index')}');
+    </script>
+{/block}

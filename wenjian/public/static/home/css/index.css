@@ -1,0 +1,371 @@
+* {
+	list-style: none;
+}
+
+.mui-bar-nav {
+	height: 50px;
+	background-color: rgba(255, 210, 0, 1);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.mui-bar-tab {
+	background-color: rgba(255, 255, 255, 1);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: 1px solid #F1F1F1;
+	/*margin-top: 150px;*/
+}
+
+.mui-active {
+	color: #ffd200 !important;
+}
+
+.nav-top {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.nav-top span {
+	font-family: "微软雅黑";
+	font-size: 0.9rem;
+	line-height: 50px;
+	float: left;
+}
+
+.mui-content {
+	margin-bottom: 5px;
+}
+.hot .hot_btm .hot_btm_right .btn-class{
+	width: 80px;
+	height: 30px;
+	border:1px solid #d81e05;
+	text-align: center;
+	line-height: 30px;
+	color: #d81e05;
+	border-radius: 5px;
+	float: right;
+}
+
+.xslogo_box {
+	width: 40%;
+	height: 23px;
+	margin: 0 auto;
+}
+
+.xslogo {
+	width: 100%;
+	height: 100%;
+	margin-top: 12px;
+	border: 0px;
+}
+
+.xsmessage_box {
+	width: 23px;
+	height: 23px;
+	float: right;
+	margin-top: -10px;
+}
+
+.xsmessage {
+	width: 100%;
+	height: 100%;
+}
+
+.xs_list {
+	width: 100%;
+	height: 130px;
+	background: #FFFFFF;
+	margin: 0 auto;
+}
+
+.xs_list_box {
+	width: 95%;
+	height: 120px;
+	margin: 0 auto;
+	padding: 25px 0px 0px 0px;
+}
+
+.xs_list .Creditloan {
+	width: 33.3%;
+	height: 100px;
+	float: left;
+}
+
+.xs_list .sapling {
+	width: 33.3%;
+	height: 100px;
+	float: left;
+}
+
+.xs_list .creditcard {
+	width: 33.3%;
+	height: 100px;
+	float: left;
+}
+
+.xs_list .Creditloan .Creditloan_box,
+.sapling .sapling_box,
+.creditcard .creditcard_box {
+	width: 80px;
+	height: 100%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.xs_list .Creditloan .Creditloan_box img {
+	width: 45px;
+	height: 40px;
+	display: block;
+	margin-left: 18px;
+}
+
+.sapling_box img {
+	width: 40px;
+	height: 40px;
+	display: block;
+	margin-left: 21px;
+}
+
+.creditcard_box img {
+	width: 40px;
+	height: 30px;
+	display: block;
+	margin: 10px 0px 0px 20px;
+}
+
+.xs_list .Creditloan .Creditloan_box .creditloan_div,
+.sapling .sapling_box .sapling_div,
+.creditcard .creditcard_div1 {
+	color: #333333;
+	font-size: 1rem;
+	font-family: "微软雅黑";
+	margin-top: 10px;
+}
+
+.xs_list .Creditloan .Creditloan_box .creditloan_div2,
+.sapling .sapling_box .sapling_div2,
+.creditcard .creditcard_div2 {
+	color: rgba(134, 134, 134, 1);
+	font-size: 0.8rem;
+}
+
+.xs_letter {
+	width: 100%;
+	height: auto;
+	background: #FFFFFF;
+	margin-top: 10px;
+}
+
+
+.xs_letter_btop {
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	font-size: 1rem;
+	font-family: "微软雅黑";
+}
+
+.xs_letter_btop img {
+	width: 18px;
+	height: 18px;
+	display: block;
+	float: left;
+	margin: 6px 5px 0px 0px;
+}
+
+.xs_letter_btm {
+	width: 100%;
+	height: auto;
+}
+.xs_letterimg
+{
+	width: 100%;
+	height: 175px;
+	border: 0px;
+}
+.xs_letter_btm .xs_letter_tj {
+	width: 70%;
+	height: auto;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+.xs_letter_btm .xs_letter_tj h5 {
+	text-align: center;
+	font-size: 1rem;
+	color: #323232;
+	margin-bottom: 25px;
+}
+
+.xs_letter_btm .xs_letter_tj .min_ov {
+	float: left;
+	font-size: 0.9rem;
+	margin-top: 10px;
+}
+
+.xs_letter_btm .xs_letter_tj .max_ov {
+	float: right;
+	font-size: 0.9rem;
+	margin-top: 10px;
+}
+
+.xs_letter_btm .button_over {
+	width: 100px;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 75px;
+}
+
+.button_over button:active {
+	background: #FFFFFF;
+}
+
+.xs_letter_btm .button_over button {
+	width: 100px;
+	border: 1px solid #DDDDDD;
+	border-radius: 5px;
+	color: #FFFFFF;
+	font-size: 0.9rem;
+	background: #ffd200;
+	font-weight: bold;
+}
+
+.xs_letter_btm .xs_line {
+	position: relative;
+	width: 100%;
+	height: 45px;
+	font-size: 0.7rem;
+	font-family: "微软雅黑";
+	margin-top: -40px;
+}
+
+.xs_letter_btm .xs_line img {
+	width: 25px;
+	height: 25px;
+	display: block;
+	float: left;
+	margin: 10px 10px 0px 4%;
+}
+.xs_letter_btm .xs_line #xs_time {
+	float: left;
+	width: auto;
+	height: 20px;
+	overflow: hidden;
+	margin-top: 12px;
+	line-height: 20px;
+}
+
+.xs_line .xs_time,a{
+	color: #333333;
+}
+.xs_line .xs_time,a:active{
+	color: #333333;
+}
+.hot {
+	width: 100%;
+	height: auto;
+	background: #FFFFFF;
+	margin-top: 10px;
+}
+
+.hot_box {
+	width: 95%;
+	height: auto;
+	margin: 0 auto;
+	padding: 5px 5px 15px 5px;
+}
+
+.hot .hot_top {
+	width: 100%;
+	height: 30px;
+	border-bottom:1px solid #f2f2f2;
+}
+
+.hot .hot_top img {
+	width: 18px;
+	height: 20px;
+	display: block;
+	float: left;
+	margin-top: 5px;
+}
+
+.hot .hot_top .hot_topthree {
+	float: right;
+	width: 30px;
+	height: 6px;
+	margin-top: 12px;
+}
+
+.hot .hot_top span {
+	float: left;
+	line-height: 30px;
+	font-size: 1rem;
+	margin-left: 5px;
+	font-family: "微软雅黑";
+}
+
+.hot .hot_btm {
+	width: 100%;
+	height: 80px;
+	margin-top: 10px;
+	border-bottom: 1px solid #f3f3f3;
+}
+
+.hot .hot_btm .hot_btm_left {
+	width: 30%;
+	height: 100%;
+	float: left;
+	padding: 0px 0px 0px 0px;
+}
+
+.hot .hot_btm .hot_btm_left div{
+	color:#5c5855;
+	font-size:0.8rem;
+	font-family: "微软雅黑";
+	margin-top:5px;
+}
+
+.hot .hot_btm .hot_btm_right {
+	width: 65%;
+	height: 100%;
+	float: left;
+	margin-left:5%;
+}
+
+.hot .hot_btm .hot_btm_right .a_over div {
+	color: #353535;
+	font-size: 0.9rem;
+	line-height: 130%;
+	margin-top: 5px;
+	font-family: "微软雅黑";
+}
+.hot .hot_btm .hot_btm_right .a_over .a_ov{
+	width:90%;
+	color: #353535;
+	font-size: 0.9rem;
+	line-height: 130%;
+	margin-top: 5px;
+	margin: 5px;
+	font-family: "微软雅黑";
+}
+
+.hot .hot_btm .hot_btm_right div {
+	color: #999999;
+	margin-left: 12px;
+	font-size: 0.8rem;
+	margin-top: 10px;
+}
+
+.advertisement {
+	width: 100%;
+	height: 60px;
+	margin-top: 5px;
+}
+
+.advertisement img {
+	width: 100%;
+	height: 100%;
+	border: 0px;
+}

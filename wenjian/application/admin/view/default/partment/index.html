@@ -1,0 +1,73 @@
+{extend name="public/base" /}
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+    <div class="tools auth-botton">
+        <a id="add-group" class="btn" href="{:url('add')}">新增部门</a> 
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th> 
+		<th class="">部门名称</th> 
+		<th class="">部门人数</th> 
+		<th class="">类型</th> 
+		<th class="">主管提成系数</th> 
+		<th class="">成员提成系数</th> 
+		<th class="">主管姓名 ／ 手机 ／ 提成（%）</th> 
+		<th class="">状态</th>   
+		<th width="150">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+            <td>{$vo.id}</td>
+			<td>{$vo.partname}</td>
+			<td>{$vo.num} 人</td> 
+			<td>
+			{eq name="$vo.is_medi" value="0"}
+			职能部门
+			{else/}
+			中介部门
+			{/eq}	
+			</td> 
+			<td>{$vo.firper} </td> 
+			<td>{$vo.secper} </td> 
+			<td>{$vo.member.truename|handle_member=###,$vo.member.mobile,$vo.member.rate}</td>
+			<td>{$vo.status_text}</td>
+			<td>
+				{eq name="vo.status" value="1"}
+				<a href="javascript:" data-url="{:url('changeStatus')}" data-obj="pment" data-type="forbid" data-id="{$vo.id}" class="statusBtn">禁用</a>
+				{else/}
+				<a href="javascript:" data-url="{:url('changeStatus')}" data-obj="pment"  data-type="resume" data-id="{$vo.id}"  class="statusBtn">启用</a>
+				{/eq}  |
+				<a href="{:url('edit?id='.$vo['id'])}">编辑</a> |
+				<a data-url="{:url('changeStatus')}" data-type="delete" data-obj="pment" data-id="{$vo.id}"  class="statusBtn" data-confirm='1' title="删除后，部门下面的成员不可登录，确定删除？" href="javascript:" >删除</a>
+            </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+
+	</div>
+    <div class="page fr">
+        {$_page}
+    </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:url('Partment/index')}');
+</script>
+{/block}

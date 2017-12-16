@@ -1,0 +1,110 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="{:url()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">广告名称 <span class="red">*</span><span class="check-tips">（例如：首页banner广告）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="title" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">标识 <span class="red">*</span> <span class="check-tips">（供前台广告调用标识,同一个位置，多个图片时请使用相同的标识）</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="flag" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">图片 <span class="red">*</span> <span class="check-tips">（建议大小：640*300像素）</span></label>
+            <div class="controls"> 
+                <input type="file" id="upload_picture_img">
+                <input type="hidden" name="img" id="cover_id_img"/>
+                <div class="upload-img-box">
+                </div> 
+                <script type="text/javascript">
+                //上传图片
+                /* 初始化上传插件 */
+                $("#upload_picture_img").uploadify({
+                    "height"          : 30,
+                    "swf"             : "__PUBLIC__/static/uploadify/uploadify.swf",
+                    "fileObjName"     : "download",
+                    "buttonText"      : "上传图片",
+                    "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
+                    "width"           : 120,
+                    'removeTimeout'   : 1,
+                    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+                    "onUploadSuccess" : uploadPictureimg,
+                    'onFallback' : function() {
+                        alert('未检测到兼容版本的Flash.');
+                    }
+                });
+                function uploadPictureimg(file, data){
+                    var data = $.parseJSON(data);
+                    var src = '';
+                    if(data.status){
+                        $("#cover_id_img").val(data.id);
+                        src = data.url || '__ROOT__' + data.path
+                        $("#cover_id_img").parent().find('.upload-img-box').html(
+                            '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                        );
+                    } else {
+                        updateAlert(data.info);
+                        setTimeout(function(){
+                            $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
+                        },1500);
+                    }
+                }
+                </script> 
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">图片alt属性 <span class="check-tips">（图片说明）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="alt" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">类型和链接<span class="red">*</span> </label>
+            <div class="controls">
+                {$typeSelect}  - 
+                <input type="text" class="text input-large" name="val" id="val" value="" placeholder="url地址或者文章ID"> 
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">排序<span class="check-tips">（从小到大排序，越小越靠前）</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="rise" value="100">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">状态<span class="check-tips">（禁用则不显示）</span></label>
+            <div class="controls">
+                {$statusRadio}
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">类型<span class="check-tips"></span></label>
+            <div class="controls">
+                {$adv_typeRadio}
+            </div>
+        </div>
+
+        <div class="form-item mar_top_10">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:url('Web/adv')}');
+    </script>
+{/block}

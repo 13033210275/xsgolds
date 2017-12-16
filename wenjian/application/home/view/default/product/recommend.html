@@ -1,0 +1,91 @@
+{extend name="base/common"/}
+{block name="style"}
+ <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/recommend.css?24324234" />
+{/block}
+{block name="header"}
+{/block}
+{block name="body"}
+<div id="recommend-page" class="mui-scroll-wrapper hide">
+  <div class="wrapper">
+    <div id="banner" class="mui-slider banner">
+        <div class="mui-slider-group mui-slider-loop" v-cloak>
+          <div class="mui-slider-item " v-if="pics.length>0">
+            <a :href="pics[pics.length-1].link" :data-id="pics[pics.length-1].id">
+              <img src="__PUBLIC__/home/images/banner.png" />
+            </a>
+          </div>
+        </div>
+      <div class="tuijian">
+        <div style="height: 50px">
+          <img src="__PUBLIC__/home/images/remen.png" class="tuijian_img"/>
+          <span style="font-size: 15px">强烈推荐</span>
+        </div>
+        <div style="width: 100%;height: 100px;">
+          <div class="zg">
+             <div class="moneyss">
+               20000
+             </div>
+            <div class="heightj">
+              最高可借(元)
+            </div>
+          </div>
+          <div class="liyou">
+         <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.xsgolds.xsgolds" style="color:#5c5c5c">
+           推荐理由：闪电审核，十五分钟到账，延迟秒配！
+         </a><br/>
+            <span>
+              <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.xsgolds.xsgolds" class="dai">
+                众快贷
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+        <div class="mui-slider-indicator">
+          <div v-for="n in pics.length" :class="n==1 ">
+          </div>
+        </div>
+    </div>
+    <div id="recommend-content">
+<div class="bottome">
+</div>
+      <div class="list mui-row" v-if="list">
+        <div style="width: 100%;height: 30px;">
+          <img src="__PUBLIC__/home/images/yq.png" class="imagerm"/>
+          <span style="font-size: 15px;float: left;margin-top: 8px;margin-left: 5px;">热门贷款</span>
+        </div>
+        <a :href="item.url" class="item mui-col-xs-50" v-for="(item,index) in list">
+         <div style="width: 100%;height: 60px;">
+          <div class="img"><img :src="'/wenjian/public'+ item.img" :alt="item.name"></div>
+          <div class="info">
+            <h2>{{item.name}}</h2>
+           <p>额度
+            <span class="monerys"><?php echo "{{item.min_cash /1000}}k~"; echo "{{item.max_cash /1000}}k";?> </span>
+           </p>
+            <!--<p>{{item.text}}</p>-->
+          </div>
+         </div>
+          <div class="bottomq" style="font-size: 0.1rem">
+              {{item.min_date}}~{{item.max_date}}个{{item.min_day_unit}}份期限，日利率{{item.min_rate}}%起
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-tip" id="recommend-bottom">
+    <div class="more" :class="!is_show_bottom && 'hideMore'">
+      <div class="btn-close" @tap="toggle('is_show_bottom')"><span class="mui-icon mui-icon-closeempty"></span></div>
+      <a class="p" href="__URL__/user/qrcode">
+        <img src="__PUBLIC__/home/images/gold.png" alt="logo">
+        点击关注微信公众号获得更多口子资讯
+      </a>
+    </div>
+    <div class="extra-btns clearfix" v-if="recommend_bottom">
+      <a v-for="(item,index) in recommend_bottom" v-if="index<3" :href="item.url">{{item.name}}</a>
+    </div>
+  </div>
+</div>
+{/block}
+{block name="script"}
+<script src="__PUBLIC__/home/js/recommend.js?4239847923748"></script>
+{/block}

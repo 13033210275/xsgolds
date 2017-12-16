@@ -1,0 +1,130 @@
+{extend name="base/common"/}
+
+{block name="style"}
+ <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/ruler.css" />
+{/block}
+ 
+{block name="body"} 
+<div class="apply" id="apply">
+    <h3 v-cloak>您正在授权将您原有账户的贷款个人资料<br>给【{{name}}】作为提交申请资料</h3>
+    <div class="box">
+        <form>
+            <div class="mui-input-row">
+                <label>借款金额：</label>
+                <input id="cashIpt" type="number" :min="min_cash" :max="max_cash" v-on:blur="changeCash($event)"  :placeholder="'可借金额'+min_cash+'-'+max_cash+'元'">
+            </div>
+            <div class="mui-input-row">
+                <label>借款期限：</label>
+                <select v-on:change="dateFun" v-cloak>
+                    <option :value="item" v-for="item in cash_area">{{item + min_day_unit}}</option>
+                </select>
+            </div>
+            <p>注：授权资料仅作该贷款申请，无其他非法用途</p>
+            <div class="mui-button-row">
+                <button type="button" class="mui-btn" onclick="document.location.href='{$url}'">取消</button>&nbsp;&nbsp;
+                <button type="button" class="mui-btn sure" v-on:click="apply">确定</button>
+            </div>
+            <p class="agree"><input type="checkbox" v-on:change="agreeFun($event)" name="" />同意<a class="color" href="{:url('agreement')}">《小树Golds资料授权免责条例》</a></p>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var proId = {$id};
+var forUrl = '{$url}';
+var apply = new Vue({
+    el: '#apply',
+    data:{
+        api:window.Apis.detail,
+        applyApi:window.Apis.apply,
+        id:proId,
+        max_cash:0,
+        min_cash:0,
+        max_date:0,
+        min_date:0,
+        min_day_unit:'',
+        cash:'',
+        cash_area:[],
+        day:'',
+        name:'',
+        agree:false
+    },
+    methods:{
+        changeCash:function(e){
+            var val = e.target.value;
+            if(val < this.min_cash){val = this.min_cash}
+            if(val > this.max_cash){val = this.max_cash}
+            this.cash = val;
+            mui('#cashIpt')[0].value = val;
+        },
+        agreeFun:function(e){
+            this.agree = e.target.checked;
+        },
+        dateFun:function(e){
+            this.day = e.target.value;
+        },
+        apply:function(){
+            var that = this;
+            if(!this.cash){
+                mui.toast('请输入要贷金额！');
+                return;
+            }
+            else if(!this.agree){
+                mui.toast('未同意《小树Golds资料授权免责条例》！');
+                return;
+            }
+            else{
+                var url = this.applyApi;
+                var pra = {
+                    mert_id:that.id,
+                    cash:that.cash,
+                    day:that.day
+                };
+                this.$http.post(url,pra).then(function(data){
+                    var json = data.data;
+                    if(json.error != 0){
+                        mui.toast(json.message)
+                        if(json.message == '请先登录'){
+                            setTimeout(function(){
+                                var a = window.location.href;
+                               document.location.href = '/home/login/index?u='+a;
+                            },1200);
+                        }
+                        return;
+                    }
+                    document.location.href = forUrl;
+                })
+            }
+        }
+    },
+    mounted:function(){
+        var url = this.api,
+            that = this;
+        var pra = {
+            id:that.id
+        }
+        this.$http.post(url,pra).then(function(data){
+            var json = data.data
+            if(json.error != 0){
+                console.log(json.message)
+                return;
+            }
+            that.max_cash = json.data.max_cash;
+            that.min_cash = json.data.min_cash;
+            that.max_date = json.data.max_date;
+            that.min_date = json.data.min_date;
+            that.min_day_unit = json.data.min_day_unit;
+            that.day = json.data.min_date;
+            that.name = json.data.name;
+            if(that.max_cash>=that.min_cash){
+                for(var i=that.min_date;i<=that.max_date;i++){
+                    that.cash_area.push(i);
+                }
+            }
+        })
+    }
+});
+</script>
+{/block}
+

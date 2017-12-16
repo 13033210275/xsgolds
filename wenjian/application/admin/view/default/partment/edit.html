@@ -1,0 +1,59 @@
+{extend name="public/base" /}
+{block name="body"}
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+    <form action="" enctype="application/x-www-form-urlencoded" method="POST"
+            class="form-horizontal" id="form">
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">部门名称<span class="check-tips">（部门显示名称例如：某某中介）</span></label>
+            <div class="controls">
+                <input  type="text" name="partname" class="text" value="{$row.partname}"/>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">状态<span class="check-tips">（禁用后，部门下的成员都不能登录系统）</span></label>
+            <div class="controls">{$statusRadio}</div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">部门主管<span class="check-tips">（如果没有用户请先添加部门成员）</span></label>
+            <div class="controls">{$userSelect}</div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">是否是中介<span class="check-tips">（勾选后“是”将会显示在 “业务合伙人” -》 “中介列表”中，不会显示在部门管理中）</span></label>
+            <div class="controls">{$mediRadio}</div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">主管提成系数:<span class="check-tips">用于统计中介部门中主管（一级）的提成系数，非中介部门为空</span></label>
+            <div class="controls"> 
+                <input type="text" class="text wd80" name="firper" value="{$row.firper}"> %
+            </div>
+        </div> 
+
+        <div class="form-item">
+            <label class="item-label">成员提成系数:<span class="check-tips">用于统计中介部门中成员（二级）的提成系数，非中介部门为空</span></label>
+            <div class="controls"> 
+                <input type="text" class="text wd80" name="secper" value="{$row.secper}"> %
+            </div>
+        </div> 
+
+        <div class="form-item">
+            <br/>
+            <input type="hidden" name="id" value="{$row.id}" />
+            <button type="button" id="submit" data-url="{:url()}" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:url('Partment/index')}');
+</script>
+{/block}

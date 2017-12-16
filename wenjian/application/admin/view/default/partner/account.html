@@ -1,0 +1,72 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	 <form action="" method="post" class="form-horizontal">
+			<div class="form-item">
+			<label class="item-label"> 会员名称<span class="check-tips"></span> </label>
+			<div class="controls">
+				 <input type="text" readonly="true" class="text"  value="{$row.nickname}"> 
+			</div>
+		</div>
+				<div class="form-item">
+			<label class="item-label">真实姓名<span class="check-tips"></span> </label>
+			<div class="controls">
+				<input type="text" readonly="true" class="text"  value="{$row.truename|default="-"}"> 
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">身份证号<span class="check-tips"></span> </label>
+			<div class="controls">
+				<input type="text" readonly="true" class="text"  value="{$row.id_card|default="-"}"> 
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">手机号<span class="check-tips"></span> </label>
+			<div class="controls">
+				<input type="text" readonly="true" class="text"  value="{$row.mobile}"> 
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">推荐好友总数<span class="check-tips"></span> </label>
+			<div class="controls">
+				<input type="text" readonly="true" class="text wd80"  value="{$row.rec_num}"> 人
+			</div>
+		</div> 
+		<div class="form-item">
+			<label class="item-label">推广链接<span class="check-tips"></span> </label>
+			<div class="controls">
+				 <input type="text" class="text wd500" id="share_url" value="{$row.share}"> 
+				 <button type="button" class="btn copy" target-form="form-horizontal">复制链接</button>				
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="item-label">推广二维码<span class="check-tips"></span><span class="check-tips">（右键点击保存二维码图片）</span> </label>
+			<div class="controls">
+				<img src="{$row.qrcodeImg}">
+			</div>
+		</div>
+	</form>
+{/block}
+
+{block name="script"}
+<script src="__PUBLIC__/static/copy.js"></script>
+<script type="text/javascript">
+	highlight_subnav('{:url('Partner/account')}');
+
+	var txt = $("#share_url").val();
+    var clipboard = new Clipboard('.copy', {
+        text: function() {
+            return txt;
+        }
+    });
+    clipboard.on('success',function(e) {
+        layer.msg("复制成功");
+    }); 
+</script>
+{/block}
+ 

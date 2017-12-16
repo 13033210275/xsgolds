@@ -1,0 +1,56 @@
+{extend name="public/base" /}
+
+{block name="body"} 
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf"> 
+		<div class="search-form ">
+			<div>
+				<a class="fl btn sch-btn" href="{:url('client')}">客户列表</a>
+				<a class="fl btn" href="{:url('loan')}">客户借款列表</a>
+				<a class="fl btn" href="{:url('day')}">每日统计</a>
+				<a class="fl btn" href="{:url('month')}">每月统计</a>
+				<a class="fl btn" style="{if $hasMember eq 1}display:inline{else}display: none{/if}" href="{:url('member')}">成员列表</a>
+			</div>
+			
+		</div>
+    </div>
+
+ 
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">编号</th>
+			<th class="">名称</th>
+			<th class="">手机号</th>
+			<th class="">注册时间</th>
+			<th class="">已点击的产品</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.member.nickname}</td>
+			<td>{$vo.member.mobile}</td>
+			<td>{$vo.create_time}</td>
+			<td>{$vo.applyed}</td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="3" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+	<div> 
+		<div class="page fr">
+	        {$_page}
+	    </div>
+	</div>
+    
+{/block} 

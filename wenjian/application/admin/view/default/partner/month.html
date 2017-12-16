@@ -1,0 +1,76 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+	<div class="cf"> 
+		<div class="search-form ">
+			<div>
+				<a class="fl btn" href="{:url('client')}">客户列表</a>
+				<a class="fl btn  " href="{:url('loan')}">客户借款列表</a>
+				<a class="fl btn" href="{:url('day')}">每日统计</a>
+				<a class="fl btn  sch-btn" href="{:url('month')}">每月统计</a>
+				<a class="fl btn" style="{if $hasMember eq 1}display:inline{else}display: none{/if}" href="{:url('member')}">成员列表</a>
+			</div>
+		</div>
+    </div>
+
+	<div class="dataview">
+		<ul>
+			<li><a href="javascript:">
+			    <b>{$row.add_client_num|default="0"} 人</b> 
+				<span>本月新增客户</span>
+			</a></li>
+			<li><a href="javascript:">
+				<b>{$row.add_apply_num|default="0"} 笔</b>
+				<span>本月新增申请</span>
+			</a></li>
+			<li><a href="javascript:">
+				<b>{$row.add_loan_num|default="0"} 笔</b>
+				<span>本月新增放款</span>
+			</a></li>
+			<li><a href="javascript:">
+				<b>￥ {$row.add_loan_cash|default="0"}</b>
+				<span>本月新增放款金额</span>
+			</a></li>
+		</ul>
+	</div>
+	
+    <div class="alert">过去12个月详细数据</div>
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">时间</th>
+			<th class="">新增客户(人)</th>
+			<th class="">新增申请（笔）</th> 
+			<th class="">新增放款笔数（笔）</th> 
+			<th class="">新增放款金额（元）</th>  
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.month} </td>
+			<td>{$vo.add_client_num}</td>
+			<td>{$vo.add_apply_num} </td> 
+			<td>{$vo.add_loan_num} </td> 
+			<td>¥ {$vo.add_loan_cash}</td> 
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+ 
+{/block} 
+
+{block name="script"}
+	<script type="text/javascript"> 
+		highlight_subnav('{:url('Partner/client')}');
+	</script>
+{/block}

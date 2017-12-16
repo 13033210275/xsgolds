@@ -1,0 +1,63 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <form action="" method="post" class="form-horizontal" id="form">
+        <div class="form-item">
+            <label class="item-label">手机号码<span class="check-tips">（由于目前系统设计，只支持手机号登录，所以手机号且可用）</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="mobile" value="{$row.mobile}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">登录密码<span class="check-tips">（不修改密码请留空）</span></label>
+            <div class="controls">
+                <input type="password" class="text" name="passwd" value="">
+            </div>
+        </div> 
+        <div class="form-item">
+            <label class="item-label">真实姓名<span class="check-tips">（成员真实姓名）</span></label>
+            <div class="controls">
+                <input type="text" class="text" name="truename" value="{$row.truename}">
+            </div>
+        </div> 
+        <div class="form-item">
+            <label class="item-label">归属部门<span class="check-tips">（禁用的部门不会出现在部门列表选择框中）</span></label>
+            <div class="controls">{$partSelect}</div>
+        </div> 
+        
+        <!-- <div class="form-item">
+            <label class="item-label">主管提成系数<span class="check-tips">（推荐的人如果申请成功，则获得的提成系数）</span></label>
+            <div class="controls">
+                <input type="text" class="text wd80" value="{$row.firper}" disabled="disabled"> %
+            </div>
+        </div> 
+
+         <div class="form-item">
+            <label class="item-label">成员提成系数<span class="check-tips">（推荐人推荐的会员如果申请成功，则获取的提成系数，最多为100，最小为0）</span></label>
+            <div class="controls">
+                <input type="text" class="text wd80"  value="{$row.secper}" disabled="disabled"> %
+            </div>
+        </div>  -->
+
+        <div class="form-item">
+            <label class="item-label">是否启用<span class="check-tips">（禁用则不能登录）</span></label>
+            <div class="controls">{$statusRadio}</div>
+        </div>
+        <div class="form-item">
+            <br/>
+            <input type="hidden" name="id" value="{$row.id}" />
+            <button type="button" id="submit" data-url="{:url()}" class="btn submit-btn" target-form="form-horizontal">更 新</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Partment/user')}');
+    </script>
+{/block}

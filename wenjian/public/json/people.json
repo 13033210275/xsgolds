@@ -1,0 +1,21 @@
+{
+	'error': 0,
+    'message':'',
+    'data': [
+        {
+			'name':'上班族',
+			'img':'/static/home/images/p1.png',
+			'link':'#'
+		},
+		{
+			'name':'生意人',
+			'img':'/static/home/images/p2.png',
+			'link':'#'
+		},
+		{
+			'name':'自由职位',
+			'img':'/static/home/images/p3.png',
+			'link':'#'
+		}
+    ]
+}

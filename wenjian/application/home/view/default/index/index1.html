@@ -1,0 +1,184 @@
+<!--{extend name="base/common"/}-->
+
+
+<!--{block name="header"}-->
+
+<!--<script>-->
+    <!--var _hmt = _hmt || [];-->
+    <!--(function() {-->
+        <!--var hm = document.createElement("script");-->
+        <!--hm.src = "https://hm.baidu.com/hm.js?74d025f2dccff4045ef7131eefe7b689";-->
+        <!--var s = document.getElementsByTagName("script")[0];-->
+        <!--s.parentNode.insertBefore(hm, s);-->
+    <!--})();-->
+<!--</script>-->
+
+<!--<div id="attention-tip" :class="show_attention && 'active'">-->
+  <!--<div class="btn-close" @tap="toggle('show_attention')"><span class="mui-icon mui-icon-closeempty"></span></div>-->
+  <!--<a class="p" href="/home/user/qrcode">-->
+    <!--<img src="__PUBLIC__/home/images/gold.png" alt="logo">-->
+    <!--点击关注微信公众号获得更多口子资讯-->
+  <!--</a>-->
+<!--</div>-->
+<!--<div id="banner" class="mui-slider banner">-->
+    <!--<div class="mui-slider-group mui-slider-loop" v-cloak>-->
+      <!--<div class="mui-slider-item mui-slider-item-duplicate" v-if="pics.length>0">-->
+        <!--<a :href="pics[pics.length-1].link" :data-id="pics[pics.length-1].id">-->
+          <!--<img :src="'/wenjian/public/'+pics[pics.length-1].img" />-->
+        <!--</a>-->
+      <!--</div>-->
+      <!--<div v-for="item in pics" class="mui-slider-item">-->
+        <!--<a :href="item.link" :data-id="item.id">-->
+          <!--<img :src="'/wenjian/public/'+item.img" />-->
+        <!--</a>-->
+      <!--</div>-->
+      <!--<div class="mui-slider-item mui-slider-item-duplicate" v-if="pics.length>0">-->
+        <!--<a :href="pics[0].link" :data-id="pics[0].id">-->
+          <!--<img :src="'/wenjian/public/'+pics[0].img" />-->
+        <!--</a>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="mui-slider-indicator">-->
+      <!--<div v-for="n in pics.length" :class="n==1 ? 'mui-indicator':'mui-indicator mui-active'">-->
+      <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--{/block}-->
+ <!---->
+<!--{block name="body"} -->
+<!--<div id="people" class="people">-->
+    <!--<ul class="mui-row">-->
+        <!--<li class="mui-col-xs-4">-->
+            <!--<a href="/home/product/index?user_type=2" :data-id="2">-->
+                <!--<img src="__PUBLIC__/home/images/p1.png" alt="上班族">-->
+                <!--<p>上班族</p>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li class="mui-col-xs-4">-->
+            <!--<a href="/home/product/index?user_type=4" :data-id="4">-->
+                <!--<img src="__PUBLIC__/home/images/p2.png" alt="生意人">-->
+                <!--<p>生意人</p>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li class="mui-col-xs-4">-->
+            <!--<a href="/home/product/index?user_type=1" :data-id="1">-->
+                <!--<img src="__PUBLIC__/home/images/p3.png" alt="自由职位">-->
+                <!--<p>自由职位</p>-->
+            <!--</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+
+
+<!--<div id="userShow" class="userShow mui-slider">-->
+  <!--<ul class="mui-table-view mui-slider-group mui-slider-loop" v-cloak>-->
+    <!--<li class="mui-table-view-cell mui-media mui-slider-item  mui-slider-item-duplicate" v-if="list.length>0">-->
+      <!--<a :href="list[list.length-1].link" :data-id="list[list.length-1].id" class="mui-control-item">-->
+        <!--<span class="need">我也需要</span>-->
+        <!--<img class="mui-media-object mui-pull-left" :src="list[list.length-1].img" :alt="list[list.length-1].title" />-->
+        <!--<div class="mui-media-body" v-cloak>-->
+            <!--{{list[list.length-1].title}}-->
+            <!--<p class="mui-ellipsis"></p>-->
+        <!--</div>-->
+      <!--</a>-->
+    <!--</li>-->
+    <!--<li class="mui-table-view-cell mui-media mui-slider-item" v-for="item in list">-->
+        <!--<a :href="item.link" :data-id="item.id" class="mui-control-item">-->
+            <!--<span class="need">我也需要</span>-->
+            <!--<img class="mui-media-object mui-pull-left" :src="item.img" :alt="item.title" />-->
+            <!--<div class="mui-media-body" v-cloak>-->
+                <!--{{item.title}}-->
+                <!--<p class="mui-ellipsis"></p>-->
+            <!--</div>-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li class="mui-table-view-cell mui-media mui-slider-item  mui-slider-item-duplicate" v-if="list.length>0">-->
+      <!--<a :href="list[0].link" :data-id="list[0].id" class="mui-control-item">-->
+          <!--<span class="need">我也需要</span>-->
+          <!--<img class="mui-media-object mui-pull-left" :src="list[0].img" :alt="list[0].title" />-->
+          <!--<div class="mui-media-body" v-cloak>-->
+            <!--{{list[0].title}}-->
+            <!--<p class="mui-ellipsis"></p>-->
+          <!--</div>-->
+      <!--</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+<!--</div>-->
+<!--<div class="server" id="server" v-if="data && data.length">-->
+  <!--<ul class="mui-row" v-cloak>-->
+      <!--<li class="mui-col-xs-4" v-for="(item,index) in data">-->
+          <!--<div v-on:click="getRecommend(item)" :data-id="item.id">-->
+            <!--<img :src="'__PUBLIC__/home/images/ser'+(index+1)+'.png'" :alt="item.zt_names" />-->
+            <!--<p>{{item.zt_name}}</p>-->
+          <!--</div>-->
+      <!--</li>-->
+  <!--</ul>-->
+  <!--<div class="recommend">-->
+    <!--<div class="norTi">-->
+      <!--<a :href="'/home/product/zhuanti/id/'+index">更多&nbsp;&gt;</a>-->
+    <!--</div>-->
+    <!--<div class="nobd">-->
+      <!--<div class="mui-table-view mui-row" v-if="list && list.length" v-cloak>-->
+        <!--<div class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in list">-->
+          <!--<a :href="'/home/product/detail/id/'+item.id" :data-id="item.id">-->
+            <!--<img class="mui-media-object mui-pull-left" :src="item.img" :alt="item.name" />-->
+            <!--<div class="mui-media-body">-->
+              <!--{{item.name}}-->
+              <!--<p class="mui-ellipsis">{{item.text}}</p>-->
+            <!--</div>-->
+          <!--</a>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div id="card" class="card hide">-->
+  <!--<div class="norTi">-->
+    <!--<p>办信用卡</p>-->
+    <!--<a href="kashu/index">更多&nbsp;&gt;</a>-->
+  <!--</div>-->
+  <!--<div class="nobd">-->
+    <!--<ul class="mui-table-view mui-row" v-if="list" v-cloak>-->
+      <!--<li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in list">-->
+        <!--<a :href="item.url" :data-id="item.id">-->
+          <!--<img class="mui-media-object mui-pull-left" :src="item.img" :alt="item.title" />-->
+          <!--<div class="mui-media-body">-->
+            <!--{{item.title}}-->
+          <!--</div>-->
+        <!--</a>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div id="info" class="info">-->
+  <!--<div class="norTi">-->
+    <!--<p>口子资讯</p>-->
+  <!--</div>-->
+  <!--<div class="nobd">-->
+    <!--<ul class="mui-table-view" v-if="list" v-cloak>-->
+      <!--<li class="mui-table-view-cell" v-for="item in list">-->
+        <!--<a :href="'/home/article/detail/id/'+item.id" :data-id="item.id">-->
+          <!--<img class="mui-media-object mui-pull-left" :src="item.img" />-->
+          <!--<div class="mui-media-body">-->
+            <!--{{item.text}}-->
+            <!--<p class="mui-ellipsis">{{item.time}}</p>-->
+          <!--</div>-->
+        <!--</a>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div id="money" class="money"></div>-->
+<!--<div id="moneyBox" class="moneyBox">-->
+  <!--<div class="mui-input-range">-->
+    <!--<h3>我要<input id="field-range" class="val" type="number" min="1000" max="10000" value="1000" />元</h3>-->
+    <!--<input id="field-range-input" type="range" step="1000" value="1000" min="1000" max="10000">-->
+    <!--<p class="range min">1000</p>-->
+    <!--<p class="range max">10000</p>-->
+    <!--<div class="btn">去取钱</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--{/block}-->
+<!--{block name="script"}-->
+<!--<script type="text/javascript" src="__PUBLIC__/home/js/main.js?v=20170919"></script>-->
+<!--{/block}-->

@@ -1,0 +1,200 @@
+{extend name="base/common"/}
+
+
+
+{block name="body"}
+<div class="userPage" id="userPage">
+  <div class="mbox">
+    <div class="hp" v-on:click="login">
+      <img src="__PUBLIC__/home/images/hp.png" alt="" />
+      <p v-cloak>{{isLogin ? name:'未登录'}}</p>
+    </div>
+    <p>
+      <a id="invite" href="javascript:void(0)">
+        <b class="mui-icon-extra mui-icon-extra-gift"></b>邀请好友获现金
+      </a>
+      <span class="mb" v-on:click="invite"></span>
+    </p>
+  </div>
+  <div class="mbox">
+    <p>
+      <a href="{:url('qrcode')}">
+        <b class="mui-icon mui-icon-star-filled"></b>关注公众号
+      </a>
+    </p>
+    <p>
+      <a href="{:url('cooperate')}">
+        <b class="mui-icon-extra mui-icon-extra-peoples"></b>商务合作
+      </a>
+    </p>
+  </div>
+  <div class="mbox">
+    <p>
+      <a href="{:url('login/find')}">
+        <b class="mui-icon mui-icon-locked"></b>密码安全
+      </a>
+    </p>
+    <p>
+      <a href="{:url('help')}">
+        <b class="mui-icon mui-icon-help-filled"></b>帮助中心
+      </a>
+    </p>
+    <p id="record">
+      <img src="/static/home/images/record.png"><span class="ed-center">备案号</span>
+      <span class="ed-icp">粤ICP备16046137号-3</span>
+    </p>
+  </div>
+  <div class="Btn" v-if="isLogin" v-cloak><button type="button" class="mui-btn-block" v-on:click="logout">退出登录</button></div>
+  <input type="hidden" readonly="readonly" id="copyText" :value="link" />
+</div>
+{if condition="$isshow neq 'app'"}
+<div style="width: 100%;height:50px; "></div>
+<nav  class="mui-bar mui-bar-tab ">
+  {if condition="$curr eq 'index'"}
+  <a class="mui-tab-item  mui-active " href="{:url('/')}">
+    <span class="mui-icon iconfont icon-shouye1"></span>
+    <span class="mui-tab-label">首页</span>
+  </a>
+  {else /}
+  <a class="mui-tab-item " href="{:url('/')}">
+    <span class="mui-icon iconfont icon-shouye1"></span>
+    <span class="mui-tab-label">首页</span>
+  </a>
+  {/if}
+
+  {if condition="$curr eq 'information'"}
+  <a class="mui-tab-item  mui-active " href="{:url('information/index')}">
+    <span class="mui-icon iconfont icon-mofang"></span>
+    <span class="mui-tab-label">资讯</span>
+  </a>
+  {else /}
+  <a class="mui-tab-item " href="{:url('information/index')}">
+    <span class="mui-icon iconfont icon-mofang"></span>
+    <span class="mui-tab-label">资讯</span>
+  </a>
+  {/if}
+
+  {if condition="$curr eq 'user'"}
+  <a class="mui-tab-item  mui-active " href="{:url('user/index')}">
+    <span class="mui-icon iconfont icon-wode1"></span>
+    <span class="mui-tab-label">我的</span>
+  </a>
+  {else /}
+  <a class="mui-tab-item " href="{:url('user/index')}">
+    <span class="mui-icon iconfont icon-wode1"></span>
+    <span class="mui-tab-label">我的</span>
+  </a>
+  {/if}
+
+</nav>
+{/if}
+{/block}
+{block name="script"}
+<script type="text/javascript" src="/static/home/js/clipboard.min.js"></script>
+<script type="text/javascript">
+    var userPage = new Vue({
+        el: '#userPage',
+        data:{
+            isLogin:false,
+            name:'',
+            link:'',
+            copyed:false,
+            isLoginUrl:window.Apis.isLogin,
+            logoutUrl:window.Apis.logout,
+            inviteUrl:window.Apis.invite
+
+        },
+        methods:{
+            copy:function(){
+                var link = this.link;
+                var clipboard = new Clipboard('#copyText', {
+                    text: function() {
+                        return link;
+                    }
+                });
+                clipboard.on('success',
+                    function(e) {
+                        mui.toast('复制成功');
+                        mui('#copyText')[0].blur();
+                    });
+                clipboard.on('error',
+                    function(e) {
+                        mui.toast('复制失败！浏览器不兼容复制！');
+                    });
+                document.getElementById("invite").addEventListener('click', function() {
+                    var btnArray = ['取消', '复制'];
+                    mui.confirm(link, '您要分享链接为：', btnArray, function(e) {
+                        if (e.index == 0) {
+
+                        }
+                        else {
+                            mui('#copyText')[0].click();
+                            mui('#copyText')[0].blur();
+                        }
+                    })
+                });
+                setTimeout(function(){
+                    document.getElementById("invite").click();
+                },150);
+            },
+            logout:function(){
+                var that = this;
+                this.$http.get(that.logoutUrl).then(function(json){
+                    var data = json.data;
+                    if(data.error != 0){
+                        mui.toast(data.message);
+                        return;
+                    }
+                    else{
+                        mui.toast('退出成功');
+                        that.isLogin = false;
+                        that.name = '';
+                    }
+                })
+            },
+            login:function(){
+                if(!this.isLogin){
+                    var a = window.location.href;
+                    document.location.href = '/home/login/index?u='+a;
+                }
+            },
+            invite:function(){
+                var that = this;
+                this.$http.get(that.inviteUrl).then(function(json){
+                    var data = json.data;
+                    if(data.error != 0){
+                        mui.toast(json.message);
+                        return;
+                    }
+                    else{
+                        if(!that.copyed){
+                            that.copyed = true;
+                            that.link = data.data;
+                            that.copy();
+                        }
+                        else{
+                            document.getElementById("invite").click();
+                        }
+                    }
+                });
+            }
+        },
+        mounted:function(){
+            var that = this;
+            this.$http.get(that.isLoginUrl).then(function(json){
+                var data = json.data;
+                if(data.error != 0){
+                    that.isLogin = false;
+                    that.name = '';
+                    return;
+                }
+                else{
+                    that.isLogin = true;
+                    that.name = data.data.name;
+                }
+            });
+            //this.copy();
+        }
+    });
+</script>
+{/block}

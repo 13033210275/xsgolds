@@ -1,0 +1,142 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+ 	
+
+	<div class="cf">  
+		<div class="search-form ">
+			<div class="fl">
+                <div style="display:{$status}">
+            	<input type="file" id="upload_file">
+                    </div>
+                <input type="hidden" name="file" id="cover_id_logo"/>
+                <div class="upload-img-box">
+                </div>
+                <script type="text/javascript">
+                /* 初始化上传插件 */
+                $("#upload_file").uploadify({
+                    "height"          : 30,
+                    "swf"             : "__PUBLIC__/static/uploadify/uploadify.swf",
+                    "fileObjName"     : "download",
+                    "buttonText"      : "导入Excel数据",
+                    "uploader"        : "{:url('Merchant/uploadOrderExcel',array('session_id'=>session_id()))}",
+                    "width"           : 120,
+                    'removeTimeout'   : 1,
+                    'fileTypeExts'    : '*.xls; ',
+                    "onUploadSuccess" : uploadLogo,
+                    'onFallback' : function() {
+                        layer.msg('未检测到兼容版本的Flash.');
+                    }
+                });
+                function uploadLogo(file, data){
+                	console.log(file,data);
+                    window.location.reload();
+                }
+                </script> 
+
+			</div>
+			<div class="fl">
+				<span class="wd10"></span>
+				机构名称：{$mertSelect}
+				<span class="wd10"></span>
+			</div>
+			<div class="sleft">
+				时间： <input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd120" value="{$sdate}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				<input type="text" name="edate" id="edate" class="search-input laydate-icon wd120" value="{$edate}" placeholder=""> 
+			</div> 
+			<div class="fl">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url()}">搜索</a>
+            	<button class="btn export" url="{$exportUrl}" target-form="ids">导出</button>
+            	
+			</div> 
+		</div>
+    </div>
+    
+    <div class="alert" style="margin-top: 10px;">注意：重复数据会自动过滤不处理</div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+		<table class="">
+	    <thead>
+	        <tr>
+				<th class="">时间</th>
+				<th class="">机构名称</th>
+				<th class="">申请金额</th>
+				<th class="">放款金额</th>
+				<th class="">佣金</th>
+			</tr>
+	    </thead>
+	    <tbody>
+			{notempty name="_list"}
+			{volist name="_list" id="vo"}
+			<tr>
+				<td><a href="{:url('detail',['date'=>$vo.date])}">{$vo.date} </a></td>
+				<td>{$vo.mert.name}</td>
+				<td>{$vo.apply_cash} 元</td>
+				<td>{$vo.loan_cash} 元</td>
+				<td>{$vo.commission_cash} 元</td>
+			</tr>
+			{/volist}
+			{else/}
+			<td colspan="4" class="text-center"> aOh! 暂时还没有内容! </td>
+			{/notempty}
+		</tbody>
+	    </table>
+	</div>
+
+	<div> 
+		<div class="page fr">
+	        {$_page}
+	    </div>
+	</div>
+{/block}
+
+{block name="script"} 
+	<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var group_id = $('#mert_id').find("option:selected").val();
+
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query+'&mert_id='+group_id;
+        }else{
+            url += '?' + query+'&mert_id='+group_id;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    
+
+     laydate({
+	  elem: '#sdate', 
+	  event: 'focus' 
+	});
+	laydate({
+	  elem: '#edate',
+	  event: 'focus' 
+	});
+
+    highlight_subnav('{:url('Merchant/tongji')}');
+
+	</script>
+{/block}

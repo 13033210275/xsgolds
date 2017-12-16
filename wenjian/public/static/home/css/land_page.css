@@ -1,0 +1,22 @@
+*,div{margin: 0;padding: 0}
+html{height: 100%;overflow-y: auto;}
+body{background: #fdeed1; font: 14px/180% 'Microsoft YaHei';width: 100%;height: 100%}
+.wrap{width: 100%;height: auto}
+img{width: 100%}
+input{border:none;background-color: #fcd576; width: 90%;height: 30px;padding:7px 0 7px 11%;outline:none;color: #fff;font-size: 15px}
+。intermediate{height: auto;width: 90%;margin: 0 5%;}
+.intermediate .segment{width: 90%;margin: 10px auto 0;color: #fff;}
+.segment .phone{width: 7%;position: absolute;margin-left: 10px;margin-top: 2px}
+.segment .inp_phone{border-radius: 22px}
+.segment .shield{width: 8%;position: absolute;margin-top: 4px;margin-left: 8px}
+.segment .inp_shield{width: 59%;border-radius: 22px 0 0 22px}
+.segment .line{height: 25px;background-color: #fff;float: left;position: absolute;margin-top: -35px;margin-left: 55%;border-left: 0px solid #fff;}
+.segment .ver_code{background-color: #fcd576; width: 30%; height: 44px;line-height: 44px;float: right;border-radius: 0 22px 22px 0;text-align: center}
+.segment #take_money{background-color: #f8b704;text-align: center;height: 44px;line-height: 44px;border-radius: 22px}
+.segment .land_bottom{text-align: center;margin: 20px auto 10px}
+.segment .land_bottom img{width: 10%}
+::-webkit-input-placeholder{color: #fff}
+.land_pop_ups{position: fixed;background: rgba(0,0,0,0.4);bottom: 0;top: 0;left: 0;right: 0;z-index: 1001;}
+.land_pop_ups #pop_ups_img{width: 84%;height: 50%;background-size: 100% 100%!important;margin: 32% 8%;}
+.land_pop_ups .land_jump{text-align: center;color: #898989;position: relative;top: 83%;}
+.pop_ups{position: fixed;top:50%;margin: -90px 10%;height: 120px;width: 80%;line-height: 20px;background-color:rgba(255,255,255,0.8);font-size: 14px;text-align: center;border-radius:5px;padding:45px 20px;box-sizing: border-box;z-index: 999;}

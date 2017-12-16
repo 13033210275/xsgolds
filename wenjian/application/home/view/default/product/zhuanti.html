@@ -1,0 +1,50 @@
+{extend name="base/common"/}
+
+ 
+ 
+{block name="body"}
+    <div class="mui-scroll-wrapper" id="zhuanTi">
+        <div class="wayBanner">
+            <img src="__PUBLIC__/home/images/zt.png" alt="" />
+            <h3 v-cloak>{{name}}</h3>
+            <p v-cloak>{{desc}}</p>
+        </div>
+        <div id="wayIndex" class="wayBox wayZt"> 
+            <div class="list mui-scroll" v-cloak>
+                <ul>
+                    <li v-for="(item,index) in list">
+                        <a :href="'/home/product/detail/id/'+item.id">
+                            <div class="tp">
+                                <img :src="item.img" :alt="item.name"/>
+                                <div class="tx">
+                                    <h3>{{item.name}}</h3>
+                                    <p>
+                                        <b v-for="i in parseInt(item.star)" class="mui-icon mui-icon-star-filled color"></b>
+                                        <b v-for="j in (5-parseInt(item.star))" class="mui-icon mui-icon-star-filled"></b>
+                                    </p>
+                                </div>
+                                <div class="rk" v-if="index<10">
+                                    <h4>TOP {{index+1}}</h4>
+                                    <p>{{item.number}}人已申请</p>
+                                </div>
+                            </div>
+                            <div class="itemTag">
+                                <span v-for="tag in item.tags">{{tag}}</span>
+                            </div>
+                            <div class="dt">
+                                <p>{{item.text}}</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var ztId = {$id}; 
+</script>
+<script type="text/javascript" src="__PUBLIC__/home/js/zt.js"></script>
+{/block}

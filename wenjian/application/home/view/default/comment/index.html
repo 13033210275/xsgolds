@@ -1,0 +1,60 @@
+{extend name="base/common"/}
+
+ 
+{block name="body"} 
+<div class="mui-scroll-wrapper" id="commentList">
+    <div id="Detail" class="Detail mui-scroll">
+        <div class="detBan">
+            <img :src="data.img" :alt="data.name" />
+        </div>
+        <div class="main" v-cloak>
+            <div class="box">
+                <div class="tw">
+                    <img :src="data.logo" :alt="data.name">
+                    <div class="tx">
+                        <h3>{{data.name}}</h3>
+                        <p>{{data.shortdesc}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <h3 class="ti2">评论</h3>
+                <div class="itemTag sp">
+                    <span v-for="item in data.commentTag">{{item.status}}({{item.number}})</span>
+                </div>
+                <div id="commentList">
+                    <div class="list">
+                        <ul>
+                            <li v-for="(item,index) in list">
+                                <h4>{{item.name}}</h4>
+                                <p>{{item.date}}</p>
+                                <div :class="item.isgood ? 'good good_on':'good'" :data-index="index"  v-on:tap="goodFun($event)">
+                                    <span class="mui-icon-extra mui-icon-extra-like"></span>
+                                    <span class="num">{{item.goods_num==0 ? "点赞":item.goods_num}}</span>
+                                </div>
+                                <p>评分：
+                                    <b v-for="i in parseInt(item.star)" class="mui-icon mui-icon-star-filled color"></b>
+                                    <b v-for="j in (5-parseInt(item.star))" class="mui-icon mui-icon-star-filled"></b>
+                                </p>
+                                <p>状态：<span>{{item.status}}</span></p>
+                                <p>评论内容：<span>{{item.text}}</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<div class="BtmBtn">
+    <p class="btn le"><a href="{:url('post',['id'=>$id])}">写评论(<span id="comment_num"></span>)</a></p>
+    <p class="btn ri"><a href="{:url('product/apply',['id'=>$id])}">申请</a></p>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    var proId = {$id};
+</script>
+<script type="text/javascript" src="__PUBLIC__/home/js/comment-list.js"></script>
+{/block}

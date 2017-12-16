@@ -1,0 +1,69 @@
+html,body{
+    background: #FFFFFF;
+}
+.list-p li .tp-p {
+    overflow: hidden;
+    position: relative;
+}
+
+.list-p li .tp-p img {
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    display: block;
+    border-radius: 3px;
+
+}
+.list-p li .tp-p .tx-p{
+    font-size: 0.9rem;
+    color: #333333;
+    line-height:25px;
+}
+.list-p li .tb-p{
+    width: 100%;
+    height: 60px;
+    margin-top: 15px;
+}
+.list-p li .tb-p .tb-left-p{
+    width: 35%;
+    height: 40px;
+    float: left;
+}
+.list-p li .tb-p .tb-left-p span:first-child{
+    font-size:1.3rem;
+    display: block;
+    color: #3f8df2;
+    height:30px;
+    text-align: center;
+    margin-left: -40px;
+}
+.list-p li .tb-p .tb-left-p span:last-child{
+    font-size: 0.8rem;
+    color: #666666;
+    text-align: center;
+    margin-left: -40px;
+    display: block;
+}
+
+.list-p li .tb-p .tb-right-p{
+    width: 65%;
+    height: 50px;
+    float: left;
+}
+.list-p li .tb-p .right-span-first-child{
+    font-size:0.8rem;
+    display: block;
+    /*margin-bottom: 5px;*/
+    color: #666666;
+    line-height: 120%;
+    width: 100%;
+    height:30px;
+}
+.list-p li .tb-p .right-span-last-child{
+    font-size: 0.8rem;
+    color: #333333;
+}
+.s-font{
+    color:#000000;
+}

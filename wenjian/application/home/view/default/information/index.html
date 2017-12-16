@@ -1,0 +1,100 @@
+{extend name="base/common"/}
+
+{block name="body"}
+<!--内容盒子 start-->
+
+<!--    <div id="info"style="background: #fff;padding: 10px 0;overflow: hidden">
+        <div class="norTi">
+            <p>口子资讯</p>
+        </div>
+            <div class="nobd" >
+                <ul class="mui-table-view" v-if="list" v-cloak>
+                    <li class="mui-table-view-cell" v-for="(item,index) in list">
+                            <a :href="'../article/detail/id/'+item.id" :data-id="item.id" >
+                                <img class="mui-media-object mui-pull-left" :src="item.img" />
+                                <div class="mui-media-body">
+                                    {{item.text}}
+                                    <p class="mui-ellipsis">{{item.time}}</p >
+                                </div>
+                            </a>
+                    </li>
+                </ul>
+            </div>
+    </div>-->
+<div class="norTi">
+    <p>口子资讯</p>
+</div>
+<div class="mui-scroll-wrapper" style="margin-top: 45px" id="getProduct" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div id="products" class="wayBox" style="padding: 0">
+        <div class="list" v-if="list.length>0" v-cloak>
+            <ul>
+                <li style="margin-bottom: 0" v-for="item in list">
+                    <a style="display: -webkit-flex;display: flex;" :href="'/home/article/detail/id/' + item.id">
+                        <div style="width: auto; height: auto;">
+                            <img :src="item.img" :alt="item.name" width="40" height="40" style="vertical-align: top"/>
+                            <div class="tx">
+                                <h3>{{item.name}}</h3>
+                            </div>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <p>{{item.text}}</p>
+                            <p>{{item.time}}</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="nothing" v-if="list.length<=0 && nothing" v-cloak>
+        </div>
+    </div>
+
+</div>
+
+{if condition="$isshow neq 'app'"}
+<div style="width: 100%;height:50px; "></div>
+<nav  class="mui-bar mui-bar-tab ">
+    {if condition="$curr eq 'index'"}
+    <a class="mui-tab-item  mui-active " href="{:url('/')}">
+        <span class="mui-icon iconfont icon-shouye1"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('/')}">
+        <span class="mui-icon iconfont icon-shouye1"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    {/if}
+
+    {if condition="$curr eq 'information'"}
+    <a class="mui-tab-item  mui-active " href="{:url('information/index')}">
+        <span class="mui-icon iconfont icon-mofang"></span>
+        <span class="mui-tab-label">资讯</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('information/index')}">
+        <span class="mui-icon iconfont icon-mofang"></span>
+        <span class="mui-tab-label">资讯</span>
+    </a>
+    {/if}
+
+    {if condition="$curr eq 'user'"}
+    <a class="mui-tab-item  mui-active " href="{:url('user/index')}">
+        <span class="mui-icon iconfont icon-wode1"></span>
+        <span class="mui-tab-label">我的</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('user/index')}">
+        <span class="mui-icon iconfont icon-wode1"></span>
+        <span class="mui-tab-label">我的</span>
+    </a>
+    {/if}
+
+</nav>
+{/if}
+
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/home/js/main.js?v=20170919"></script>
+
+<script type="text/javascript" src="__PUBLIC__/home/js/information.js"></script>
+{/block}

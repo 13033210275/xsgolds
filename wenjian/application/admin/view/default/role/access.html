@@ -1,0 +1,86 @@
+{extend name="public/base" /}
+{block name="body"}
+    <div class="main-title">
+        <h2>{$title}</h2>
+    </div>
+
+    <div class="tab-wrap">
+        <ul class="tab-nav nav">
+            <li class="current"><a href="javascript:;">访问授权</a></li>
+            <li><a href="{:url('Role/user',array('role_id'=> input('role_id')))}">成员授权</a></li>
+            <li class="fr">{$roleSelect}</li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane in">
+                <form action="" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form" id="form">
+                    {volist name="node_list" id="node" }
+                    <dl class="checkmod">
+                        <dt class="hd">
+                            <label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="{$node.id}">{$node.title}管理</label>
+                        </dt>
+                        <dd class="bd">
+                            {present name="node['child']"}
+                            {volist name="node['child']" id="vo" }
+                                <div class="rule_check">
+                                    <div>
+                                        <label class="checkbox">
+                                       <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="{$vo.id}"/>{$vo.title}
+                                        </label>
+                                    </div>
+                                   {notempty name="vo['child']"}
+                                       <span class="divsion">&nbsp;</span>
+                                       <span class="child_row">
+                                           {volist name="vo['child']" id="op"}
+                                               <label class="checkbox" >
+                                                   <input class="auth_rules" type="checkbox" name="rules[]"
+                                                   value="{$op.id}"/>{$op.title}
+                                               </label>
+                                           {/volist}
+                                       </span>
+                                   {/notempty}
+                                </div>
+                            {/volist}
+                            {/present}
+                        </dd>
+                    </dl>
+                    {/volist}
+
+                    <input type="hidden" name="role_id" value="{$row.id}" />
+                    <button type="button" id="submit" data-url="{:url('Role/access')}" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </form>
+            </div>
+
+            <!-- 成员授权 -->
+            <div class="tab-pane"></div>
+
+            <!-- 分类 -->
+            <div class="tab-pane"></div>
+        </div>
+    </div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+    +function($){
+        var rules = {$exsit};
+        $('.auth_rules').each(function(){
+            if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+                $(this).prop('checked',true);
+            }
+            if(this.value==''){
+                $(this).closest('span').remove();
+            }
+        });
+        //全选节点
+        $('.rules_all').on('change',function(){
+            $(this).closest('dl').find('dd').find('input').prop('checked',this.checked);
+        });
+        $('.rules_row').on('change',function(){
+            $(this).closest('.rule_check').find('.child_row').find('input').prop('checked',this.checked);
+        }); 
+        highlight_subnav("{:url('Role/index')}");
+        eventSelect('#role_id',"{:url('Role/access')}");
+    }(jQuery);
+</script>
+{/block}

@@ -1,0 +1,256 @@
+{extend name="base/common"/}
+
+{block name="style"}
+<link href="__PUBLIC__/home/css/index.css" rel="stylesheet" />
+{/block}
+{block name="header"}
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?74d025f2dccff4045ef7131eefe7b689";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<div id="attention-tip" :class="show_attention && 'active'">
+  <div class="btn-close" @tap="toggle('show_attention')"><span class="mui-icon mui-icon-closeempty"></span></div>
+  <a class="p" href="/home/user/qrcode">
+    <img src="__PUBLIC__/home/images/gold.png" alt="logo">
+    点击关注微信公众号获得更多口子资讯
+  </a>
+</div>
+{/block}
+
+{block name="style"}
+<link href="__PUBLIC__/home/css/index.css" rel="stylesheet" />
+{/block}
+
+{block name="body"}
+
+{if condition="$isshow neq 'app'"}
+<header class="mui-bar mui-bar-nav">
+    <div class="nav-top">
+        <div class="xslogo_box"><img class="xslogo" src="__PUBLIC__/home/images/xiaoshug.png" /></div>
+    </div>
+</header>
+{/if}
+<div class="mui-content">
+
+    <!--信用贷--小树保--信用卡模块 start-->
+    <div class="xs_list">
+        <div class="xs_list_box">
+
+            <a href="/home/product">
+                <div class="Creditloan">
+                    <div class="Creditloan_box">
+                        <img src="__PUBLIC__/home/images/daikuan.png" />
+                        <div class="creditloan_div">信用贷</div>
+                        <div class="creditloan_div2">一分钟审核</div>
+                    </div>
+                </div>
+            </a>
+            <a href="https://ztg.zhongan.com/promote/entrance/promoteEntrance.do?redirectType=h5&promotionCode=INST171177850016&productCode=PRD160596095002&promoteCategory=single_product&token=">
+                <div class="sapling">
+                    <div class="sapling_box">
+                        <img src="__PUBLIC__/home/images/chexian.png" />
+                        <div class="sapling_div">小树保</div>
+                        <div class="sapling_div2">车险保障</div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/home/product/credit">
+                <div class="creditcard">
+                    <div class="creditcard_box">
+                        <img src="__PUBLIC__/home/images/xinyongka.png" />
+                        <div class="creditcard_div1">信用卡</div>
+                        <div class="creditcard_div2">绿色通道</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--信用贷--小树保--信用卡模块 end-->
+
+    <!--輪播 start-->
+    <div class="xs_letter">
+        <div class="xs_letter_btm">
+            <!--<img class="xs_letterimg" src="__PUBLIC__/home/images/bj.jpg">-->
+
+            <div id="banner" class="mui-slider banner xs_letterimg">
+                <div class="mui-slider-group mui-slider-loop" v-cloak>
+
+                    <div class="mui-slider-item mui-slider-item-duplicate" v-if="pics.length>1">
+                        <a :href="pics[pics.length-1].link" :data-id="pics[pics.length-1].id">
+                            <img :src="pics[pics.length-1].img" style="width: 100%;height:175px;"/>
+                        </a>
+                    </div>
+
+                    <div v-for="item in pics" class="mui-slider-item">
+                        <a :href="item.link" :data-id="item.id">
+                            <img :src="item.img" style="width: 100%;height:175px;" />
+                        </a>
+                    </div>
+                    <div class="mui-slider-item mui-slider-item-duplicate" v-if="pics.length > 1">
+                        <a :href="pics[0].link" :data-id="pics[0].id">
+                            <img :src="pics[0].img" style="width: 100%;height:175px;"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="mui-slider-indicator">
+                    <div v-for="n in pics.length" :class="n==1 ? 'mui-indicator':'mui-indicator mui-active'" v-if="pics.length >1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="userShow" style="height: 62px;border-top: 0px;" class="userShow mui-slider">
+        <ul class="mui-table-view mui-slider-group mui-slider-loop" v-cloak>
+            <li class="mui-table-view-cell mui-media mui-slider-item  mui-slider-item-duplicate" v-if="list.length>1">
+                <a :href="list[list.length-1].link" :data-id="list[list.length-1].id" class="mui-control-item">
+
+                    <img style="width: 40px;height: 40px" class="mui-media-object mui-pull-left" :src="list[list.length-1].img" :alt="list[list.length-1].title" />
+                    <div class="mui-media-body" style="margin-top: 9px;margin-left: 10px" v-cloak>
+                        {{list[list.length-1].title}}
+                        <p class="mui-ellipsis" style="display: inline;color:#333333"></p>
+                        <!--<span class="need" style="background: #ffd200;color: white;width: 70px">我也需要</span>-->
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-slider-item" v-for="item in list">
+                <a :href="item.link" :data-id="item.id" class="mui-control-item">
+
+                    <img style="width: 40px;height: 40px" class="mui-media-object mui-pull-left" :src="item.img" :alt="item.title" />
+                    <div class="mui-media-body" style="margin-top: 9px;margin-left: 10px" v-cloak>
+                        <span style="margin-left: 10px">  {{item.title}}</span>
+                        <p class="mui-ellipsis" style="margin-left:20px;display: inline;color:#333333 "></p>
+                        <!--<span class="need" style="background: #ffd200;color: white;width: 70px">我也需要</span>-->
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-slider-item  mui-slider-item-duplicate" v-if="list.length>1">
+                <a :href="list[0].link" :data-id="list[0].id" class="mui-control-item">
+                    <!--<span class="need">我也需要</span>-->
+                    <img style="width: 40px;height: 40px" class="mui-media-object mui-pull-left" :src="list[0].img" :alt="list[0].title" />
+                    <div class="mui-media-body"  style="margin-top: 9px;margin-left: 10px" v-cloak>
+                        <span style="margin-left: 10px">{{list[0].title}}</span>
+                        <p class="mui-ellipsis"  style="margin-left:20px;display: inline;color:#333333"></p>
+                        <!--<span class="need" style="background: #ffd200;color: white;width: 70px">我也需要</span>-->
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--热门推荐模块 start-->
+    <div class="hot">
+        <div class="hot_box" id="server" v-if="data && data.length">
+            <div class="hot_top">
+                <img src="__PUBLIC__/home/images/remeng.png">
+                <span>热门推荐</span>
+               <a href="/home/product">
+                   <span style="float: right;color:#d81e05;font-size: 1rem">更多</span>
+               </a>
+            </div>
+
+            <div v-if="list && list.length" v-cloak>
+                <div v-for="item in list.slice(0,10)">
+                    <a :href="'/home/product/detail/id/'+item.id" :data-id="item.id">
+                        <div class="hot_btm">
+                            <div class="hot_btm_left">
+                                <img style="width: 45%;height: 55%;margin-left:25%;display: block" :src="item.img">
+                                <div style="text-align: center"> {{item.name}}</div>
+                            </div>
+                            <div class="hot_btm_right">
+								<span class="a_over">
+									<div class="a_ov">  推荐理由:{{item.text}}</div>
+								</span>
+                                <div class="btn-class">立即申请</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+            <!--<a href="https://ztg.zhongan.com/promote/entrance/promoteEntrance.do?redirectType=h5&promotionCode=INST171177850016&productCode=PRD160596095002&promoteCategory=single_product&token=">
+                <div class="hot_btm">
+                    <div class="hot_btm_left">
+                        <div>立即办卡</div>
+                        <div>保骉车险</div>
+                    </div>
+                    <div class="hot_btm_right">
+								<span class="a_over">
+									<div>推荐理由:权益丰富，养车无忧,众安平安联合车险</div>
+								</span>
+                    </div>
+                </div>
+            </a>-->
+        </div>
+        <a href="/home/product/credit">
+            <img style=" margin-top:0px;width: 100%" src="__PUBLIC__/home/images/card1.jpg">
+            <!--<div style="text-align: center;color: #d81e05;font-size: 1rem">立即办卡</div>-->
+
+            <!--<div class="hot_btm_right">-->
+            <!--<span class="a_over">-->
+            <!--<div class="a_ov">信用消费,挥洒自如</div>-->
+            <!--</span>-->
+            <!--<div class="btn-class">立即申请</div>-->
+            <!--</div>-->
+        </a>
+    </div>
+    <!--热门推荐模块 end-->
+
+
+</div>
+
+{if condition="$isshow neq 'app'"}
+<!--<div style="width: 100%;height:50px; "></div>-->
+<nav  class="mui-bar mui-bar-tab ">
+    {if condition="$curr eq 'index'"}
+    <a class="mui-tab-item  mui-active " href="{:url('/')}">
+        <span class="mui-icon iconfont icon-shouye1"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('/')}">
+        <span class="mui-icon iconfont icon-shouye1"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    {/if}
+
+    {if condition="$curr eq 'information'"}
+    <a class="mui-tab-item  mui-active " href="{:url('information/index')}">
+        <span class="mui-icon iconfont icon-mofang"></span>
+        <span class="mui-tab-label">资讯</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('information/index')}">
+        <span class="mui-icon iconfont icon-mofang"></span>
+        <span class="mui-tab-label">资讯</span>
+    </a>
+    {/if}
+
+    {if condition="$curr eq 'user'"}
+    <a class="mui-tab-item  mui-active " href="{:url('user/index')}">
+        <span class="mui-icon iconfont icon-wode1"></span>
+        <span class="mui-tab-label">我的</span>
+    </a>
+    {else /}
+    <a class="mui-tab-item " href="{:url('user/index')}">
+        <span class="mui-icon iconfont icon-wode1"></span>
+        <span class="mui-tab-label">我的</span>
+    </a>
+    {/if}
+
+</nav>
+{/if}
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/home/js/main.js?v=20170919"></script>
+
+<!--<script type="text/javascript" src="__PUBLIC__/home/js/index.js"></script>-->
+{/block}

@@ -1,0 +1,107 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+	<div class="cf"> 
+		<form action="" method="get">
+			<div class="search-form ">
+				<div class="sleft">
+					成员搜索：<input type="text" name="wd" class="search-input" value="{:input('wd')}" placeholder="关键字搜索"> 
+				</div>
+				<div class="fl">
+					{$partSelect}
+				</div> 
+				<div class="f">
+					<button type="submit" class="sch-btn" style="border:none;cursor: pointer;">搜索</button>
+	            	<a class="btn" href="{:url('useradd')}">新增成员</a>
+				</div> 
+			</div>
+		</form> 
+    </div>
+
+
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">手机号</th>
+		<th class="">真实姓名</th>
+		<th class="">所属部门</th>
+		<th class="">提成系数(%)</th>
+		<th class="">最后登录时间</th> 
+		<th class="">最后登录IP</th>
+		<th class="">状态</th>
+		<th class="">操作</th> 
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.mobile}</td>
+			<td>{$vo.truename|default="-"}</td>
+			<td>{$vo.part.partname}</td>
+			<td>{$vo.rate}</td>  
+			<td><span>{$vo.last_login_time|time_format}</span></td>
+			<td><span>{$vo.last_login_ip}</span></td>
+			<td>{$vo.status_text}</td>
+			<td>{eq name="vo.status" value="1"}
+				<a href="{:url('changeStatusClose?id='.$vo['id'])}"  >禁用</a>
+				{else/}
+				<a  href="{:url('changeStatusOpen?id='.$vo['id'])}"  >启用</a>
+				{/eq}  |
+				<a href="{:url('useredit?id='.$vo['id'])}">编辑</a> |
+
+				<a  href="{:url('changeStatusDel?id='.$vo['id'])}" >删除</a>
+            </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+
+	<div>
+		<div class="page fr">
+	        {$_page}
+	    </div>
+	</div>
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var group_id = $('#group_id').find("option:selected").val();
+
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query+'&group_id='+group_id;
+        }else{
+            url += '?' + query+'&group_id='+group_id;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    //导航高亮
+    highlight_subnav('{:url('Partment/user')}');
+	</script>
+{/block}

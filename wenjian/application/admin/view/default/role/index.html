@@ -1,0 +1,70 @@
+{extend name="public/base" /}
+{block name="body"}
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+    <div class="tools auth-botton">
+    	<div class="fl">
+			{$partSelect}
+			<span class="pad5"></span>
+		</div> 
+        <a id="add-group" class="btn" href="{:url('add')}">新 增</a> 
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+        	<th class="">编号</th> 
+			<th class="">角色名称</th> 
+			<th class="">说明</th>
+			<th class="">所属部门</th> 
+			<th class="">状态</th>
+			<th class="" width="300">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id}</td>
+			<td><a href="{:url('edit?id='.$vo['id'])}">{$vo.title}</a> </td>
+			<td><span>{:mb_strimwidth($vo['description'],0,60,"...","utf-8")}</span></td> 
+			<td>{$vo.part.partname}</td>
+			<td>{$vo.status_text}</td>
+			<td>
+				{eq name="vo.status" value="1"}
+				<a href="javascript:" data-url="{:url('changeStatus')}" data-obj="role" data-type="forbid" data-id="{$vo.id}" class="statusBtn">禁用</a>
+				{else/}
+				<a href="javascript:" data-url="{:url('changeStatus')}" data-obj="role" data-type="resume" data-id="{$vo.id}"  class="statusBtn">启用</a>
+				{/eq}
+				<span class="pad5">|</span>
+				<a href="{:url('access?role_id='.$vo['id'])}" >访问授权</a> 
+				<span class="pad5">|</span>
+				<a href="{:url('user?role_id='.$vo['id'])}" >用户授权</a>
+				<span class="pad5">|</span>
+				<a href="{:url('edit?id='.$vo['id'])}">编辑</a> <span class="pad5">|</span>
+				<a data-url="{:url('changeStatus')}" data-type="delete" data-obj="role" data-id="{$vo.id}"  class="statusBtn" data-confirm='1' title="删除后，成员将无法登录系统，确定删除吗？" href="javascript:" >删除</a>
+
+                </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+	eventSelect('#part_id','{:url()}');
+    highlight_subnav('{:url('Role/index')}');
+</script>
+{/block}

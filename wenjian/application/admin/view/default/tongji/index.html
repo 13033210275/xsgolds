@@ -1,0 +1,104 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf">  
+ 
+
+		<div class="search-form ">
+			<form action="{:url()}" method="get" id="form">
+			<div class="sleft">
+				开始日期： <input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd120" value="{$sdate}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				结束日期：<input type="text" name="edate" id="edate" class="search-input laydate-icon wd120" value="{$edate}" placeholder=""> 
+			</div> 
+			<div class="fl">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}">搜索</a>
+            	<button class="btn export" url="{$exportUrl}" target-form="ids">导出</button>
+
+
+				<a href="{:url('Tongji/index',['d'=>'today'])}" class="fl btn {if condition="$d eq 'today'"} sch-btn {/if}">今天</a>
+				<a href="{:url('Tongji/index',['d'=>'yestoday'])}" class="fl btn {if condition="$d eq 'yestoday'"} sch-btn {/if}">昨天</a>
+				<a href="{:url('Tongji/index',['d'=>7])}" class="fl btn {if condition="$d eq 7"} sch-btn {/if}">近7天</a>
+				<a href="{:url('Tongji/index',['d'=>30])}" class="fl btn {if condition="$d eq 30"} sch-btn {/if}">近30天</a>
+			</div> 
+			</form>
+
+			<div class="tongj">
+				<span>总访问量： {$allView} </span>
+				<span>总注册量： {$totalReg} </span>
+				<span>总申请量： {$totalApply} </span>
+				<span>商家申请总数： {$totalMertApply}  </span>
+				<span>访问IP总量： {$totalIp}</span>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">时间</th>
+			<th class="">访问量</th>
+			<th class="">注册量</th>
+			<th class="">申请量</th>
+			<th class="">商家申请家数</th>
+			<th class="">访问IP量</th>  
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.date} </td>
+			<td>{$vo.view}</td>
+			<td>{$vo.reg}</td>
+			<td>{$vo.apply}</td>
+			<td>{$vo.mert_apply}</td>
+			<td>{$vo.ip}</td>   
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+ 
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		$('#form').submit();
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    
+
+     laydate({
+	  elem: '#sdate', 
+	  event: 'focus' 
+	});
+	laydate({
+	  elem: '#edate',
+	  event: 'focus' 
+	});
+	 highlight_subnav('{:url('Tongji/index')}');
+
+	</script>
+{/block}

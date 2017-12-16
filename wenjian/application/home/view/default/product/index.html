@@ -1,0 +1,87 @@
+{extend name="base/common"/}
+
+{block name="style"}
+<link href="__PUBLIC__/home/css/product.css" rel="stylesheet" type="text/css"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<link href="__PUBLIC__/home/css/iconfont2.css" rel="stylesheet" type="text/css">
+
+{/block}
+{block name="body"}
+<div class="mui-scroll-wrapper" id="wayMain" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="waySelect" v-cloak>
+            <div class="cell s-font" v-on:click="openSltFun2"  v-bind:class="{'mui-active ': class1 }">
+            <span style="font-family:'微软雅黑';">{{cashText}}</span>&nbsp;<span  v-bind:class="{'mui-active iconfont icon-sanjiaoxing ': class3 }"></span>
+            <select v-on:change="cashFun">
+                <option :value="item.val" v-for="item in cash_data">{{item.text}}</option>
+            </select>
+        </div>
+        <div class="cell" v-on:click="openSltFun" v-bind:class="{'mui-active ': class2 }" style="font-family:'微软雅黑';color: #000000">
+            个性选择&nbsp;<span v-bind:class="{'mui-active iconfont icon-sanjiaoxing': class4 }"></span>
+        </div>
+        <div class="box" v-show="openSlt">
+            <ul>
+                <li>
+                    <h3>身份</h3>
+                    <div class="itemTag">
+                        <span :class="user_type==item.val ? 'on':''" :data-val="item.val" v-for="item in user_data" v-on:click="userFun($event)">{{item.text}}</span>
+                    </div>
+                </li>
+                <li>
+                    <h3>贷款类型</h3>
+                    <div class="itemTag">
+                        <span :class="loan_type==item.val ? 'on':''" :data-val="item.val" v-for="item in loan_data" v-on:click="loanFun($event)">{{item.text}}</span>
+                    </div>
+                </li>
+                <li>
+                    <h3>筛选</h3>
+                    <div class="itemTag">
+                        <span :class="tag_id==item.val ? 'on':''" :data-val="item.val" v-for="item in tag_data" v-on:click="tagFun($event)">{{item.text}}</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="Btn">
+                <button type="button" class="mui-btn" v-on:click="goto">确定</button>
+            </div>
+        </div>
+    </div>
+    <div id="wayIndex" class="wayBox" style="padding-top: 0" >
+      <div class="list-p" v-if="list.length>0" v-cloak>
+          <ul>
+              <li v-for="(item,index) in list" style="border-bottom: 1px solid #f2f2f2;margin-top: 10px;">
+                  <a :href="'/home/product/detail/id/' + item.id">
+                      <div class="tp-p">
+                          <img :src="item.img" :alt="item.name"/>
+                          <div class="tx-p">
+                              {{item.name}}
+                          </div>
+                      </div>
+                      <div class="tb-p">
+                          <div class="tb-left-p">
+                              <span>{{item.max_cash}}</span>
+                              <span>最高可借(元)</span>
+                          </div>
+                          <div class="tb-right-p">
+                              <span class="right-span-first-child">{{item.text}}</span>
+                              <span class="right-span-last-child">
+                                  日利率{{item.max_rate}}%起,
+                                  <span v-if="item.min_date == item.max_date">{{item.max_date}}</span>
+                                  <span v-else-if="item.min_date != item.max_date">{{item.min_date}}-{{item.max_date}}</span>
+                                  {{item.min_day_unit}}期限
+                              </span>
+                          </div>
+                      </div>
+                  </a>
+                  <!--<hr/>-->
+              </li>
+          </ul>
+      </div>
+      <div class="nothing" v-if="list.length<=0 && nothing" v-cloak>
+        抱歉，没有找到匹配产品！
+      </div>
+    </div>
+    <div class="mui-backdrop" v-show="openSlt" v-on:click="openSltFun"></div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/home/js/way.js"></script>
+{/block}

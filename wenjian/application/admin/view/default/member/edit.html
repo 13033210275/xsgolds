@@ -1,0 +1,78 @@
+{extend name="public/base" /}
+
+{block name="body"}
+    <script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div> 
+    <form action="" enctype="application/x-www-form-urlencoded" method="POST"
+            class="form-horizontal" id="form">
+        
+        <div class="form-item">
+            <label for="auth-title" class="item-label">会员名称<span class="check-tips">（修改用户名称）</span></label>
+            <div class="controls">
+                <input  type="text" name="nickname" class="text" value="{$row.nickname}"/>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">会员手机<span class="check-tips">（不可修改）</span></label>
+            <div class="controls">
+                <input  type="text" readonly="true" class="text" value="{$row.mobile}"/>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">真实姓名<span class="check-tips">（会员真实姓名）</span></label>
+            <div class="controls">
+                <input  type="text" name="truename" class="text" value="{$row.truename}"/>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">修改密码<span class="check-tips">（修改用户的密码,不修改请留空）</span></label>
+            <div class="controls">
+                <input  type="password" name="passwd" class="text" value=""/>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">状态<span class="check-tips">（禁用后，部门下的成员都不能登录系统）</span></label>
+            <div class="controls">{$statusRadio}</div>
+        </div>
+
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">转为中介<span class="check-tips">（转为中介后，既可以登录后台也可以登录前台）</span></label>
+            <div class="controls">{$midRadio}</div>
+        </div>
+
+        <div class="form-item showindex" id="partcon">
+            <label for="auth-title" class="item-label">所属部门<span class="check-tips">（请选择中介部门，必选）</span></label>
+            <div class="controls">{$partSelect}</div>
+        </div>
+        
+
+        <div class="form-item">
+            <br/>
+            <input type="hidden" name="id" value="{$row.id}" />
+            <button type="button" id="submit" data-url="{:url()}" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Member/index')}');
+
+        $('.exchange').on('click',function(event) {
+            var val = $(this).val();
+            if(val==1){
+                $("#partcon").show();
+            }else{
+                $("#partcon").hide();
+            }
+        });
+    </script>
+{/block}

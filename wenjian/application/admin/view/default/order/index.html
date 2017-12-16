@@ -1,0 +1,168 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf">  
+		<div class="search-form ">
+			<div class="sleft">
+				申请ID：<input type="text" name="loan_id" class="search-input wd80" value="{:input('loan_id')}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				机构名称：<input type="text" name="mert_name" class="search-input wd120" value="{:input('mert_name')}" placeholder=""> 
+			</div>
+	<!-- 		<div class="fl">
+				放款：{$typeSelect}
+				<span class="wd10"></span>
+			</div> -->
+			<div class="sleft">
+				贷款人ID：<input type="text" name="loan_uid" class="search-input wd80" value="{:input('loan_uid')}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				贷款人姓名：<input type="text" name="loan_uname" class="search-input wd120" value="{:input('loan_uname')}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				推荐人：<input type="text" name="rec_name" class="search-input wd120" value="{:input('rec_name')}" placeholder="">
+			</div>
+			<div style="clear: both;padding-top: 10px;">
+			<div class="sleft">
+				推荐人手机号：<input type="text" name="rec_mobile" class="search-input wd120" value="{:input('rec_mobile')}" placeholder="">
+			</div>
+
+			<div class="sleft">
+				贷款人手机：<input type="text" name="loan_phone" class="search-input wd120" value="{:input('loan_phone')}" placeholder=""> 
+			</div>
+			<div class="fl search-txt">
+				申请时间：
+			</div>
+			<div class="sleft">
+				<input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd120" value="{:input('sdate')}" placeholder=""> 
+			</div>
+			<div class="fl search-line">-</div>
+			<div class="sleft">
+				<input type="text" name="edate" id="edate" class="search-input laydate-icon wd120" value="{:input('edate')}" placeholder=""> 
+			</div>
+				<div class="fl">
+					申请来源：{$codeSelect}
+				</div>
+			<div class="f">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}">搜索</a>
+                <button class="btn export" url="{$exportUrl}" target-form="ids">导出</button>
+			</div>
+			</div>
+			
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">编号</th>
+			<th class="">商家名称</th>
+			<th class="">借款人</th>
+            <th class="">姓名</th>
+			<th class="">借款金额</th>
+			<th class="">借款时长</th>
+			<th class="">推荐人</th>
+			<th class="">申请时间</th>
+			<th class="">申请来源</th>
+			<th class="">状态</th> 
+			<!-- <th></th> -->
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.mert.name}</td>
+			<td>{$vo.user.nickname}</td>
+            <td>{$vo.user.truename}</td>
+			<td>{$vo.cash} 元</td>
+			<td>{$vo.day} {$vo.unit}</td>
+			<td>{$vo.rec_uname}</td>   
+			<td>{$vo.create_time}</td>
+			<td>{$vo.code_name}</td>
+			<td>{$vo.loan_status_text}</td>  
+			<!-- <th class="txt-left">
+				{eq name="vo.status" value="1"}
+				<a href="javascript:" data-url="{:url('Order/changeStatus')}" data-obj="order" data-type="forbid" data-id="{$vo.id}" class="statusBtn">禁用</a>
+				{else/}
+				<a href="javascript:" data-url="{:url('Order/changeStatus')}" data-obj="order"  data-type="resume" data-id="{$vo.id}"  class="statusBtn">启用</a>
+				{/eq} 
+			</th>  -->
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+
+	<div>
+        共{$_num}条记录
+		<div class="page fr">
+	        {$_page}
+	    </div>
+	</div>
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+
+	<script type="text/javascript">
+    highlight_subnav('{:url('Order/index')}');
+
+
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var group_id = $('#group_id').find("option:selected").val();
+
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query+'&group_id='+group_id;
+        }else{
+            url += '?' + query+'&group_id='+group_id;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+
+     laydate({
+	  elem: '#sdate', 
+	  event: 'focus' 
+	});
+	laydate({
+	  elem: '#edate',
+	  event: 'focus' 
+	});
+
+    $("#code").change(function(event) {
+        var val = $(this).val();
+        var name = $(this).attr('name');
+        var url = window.location.href;
+        if(url.indexOf('?')>0 ){
+            url += '&' + name+"="+val;
+        }else{
+            url += '?' + name+"="+val;
+        }
+        window.location.href = url;
+    });
+
+	</script>
+{/block}

@@ -1,0 +1,42 @@
+{extend name="public/base" /}
+{block name="body"}
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+    <form action="" id="form" enctype="application/x-www-form-urlencoded" method="POST"
+            class="form-horizontal">
+
+            
+        <div class="form-item">
+            <label for="auth-title" class="item-label">所属部门<span class="check-tips">（所有角色都是基于部门的）</span></label>
+            <div class="controls">{$partSelect}</div>
+        </div>
+
+        <div class="form-item">
+            <label for="auth-title" class="item-label">角色名称 <span class="check-tips">（所有成员都是基于角色权限控制）</span></label>
+            <div class="controls">
+                <input id="auth-title" type="text" name="title" class="text input-large" value=""/>
+            </div>
+        </div>
+        <div class="form-item">
+            <label for="auth-description" class="item-label">描述<span class="check-tips">（角色简单描述）</span></label>
+            <div class="controls">
+                <label class="textarea input-large"><textarea id="auth-description" type="text" name="description"></textarea></label>
+            </div>
+        </div>
+        <div class="form-item">
+            <label for="auth-description" class="item-label">是否禁用<span class="check-tips">（禁用后成员将无法使用后台系统）</span></label>
+            <div class="controls">{$statusRadio}</div>
+        </div>
+        <div class="form-item"> 
+            <button type="button" id="submit" data-url="{:url()}" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+    highlight_subnav('{:url('AuthManager/index')}');
+</script>
+{/block}

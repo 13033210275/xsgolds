@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{$seo_title} - {:config('WEB_SITE_TITLE')}</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	  <meta name="apple-mobile-web-app-capable" content="yes">
+	  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/mui.min.css" />
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/main.css?v=2017092801" />
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/home/css/main.css?v=20170919" />
+    <link href="__PUBLIC__/home/css/iconfont.css" rel="stylesheet" />
+    <link href="__PUBLIC__/home/css/index.css" rel="stylesheet" />
+    {block name="style"}{/block}
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?b748ef0388ead2cc1ea591f143b7ac5e";
+              var s = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  </head>
+<body>
+<div class="mainBox">
+  {block name="header"}{/block}
+  {block name="body"}{/block}
+  {block name="footer"}{/block}
+
+  {if condition="$nav eq ''"}
+<!--  <nav class="mui-bar mui-bar-tab">
+      <a class="mui-tab-item {if condition="$curr eq 'index'"} mui-active {/if}" href="{:url('/')}">
+        <span class="mui-icon mui-icon-home"></span>
+        <span class="mui-tab-label">首页</span>
+      </a>
+      <a class="mui-tab-item {if condition="$curr eq 'product'"} mui-active {/if}" href="{:url('product/index')}">
+        <span class="mui-icon mui-icon-extra mui-icon-extra-class"></span>
+        <span class="mui-tab-label">口子大全</span>
+      </a>
+      <a class="mui-tab-item {if condition="$curr eq 'match'"} mui-active {/if}" href="{:url('product/match')}">
+      <span class="mui-icon mui-icon-navigate"></span>
+      <span class="mui-tab-label">智能匹配</span>
+      </a>
+      <a class="mui-tab-item {if condition="$curr eq 'user'"} mui-active {/if}" href="{:url('user/index')}">
+        <span class="mui-icon mui-icon-contact"></span>
+        <span class="mui-tab-label">我的</span>
+      </a>
+  </nav>-->
+
+
+  {/if}
+</div>
+<script type="text/javascript" src="__PUBLIC__/home/js/config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/js/vue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/js/mui.min.js"></script>
+<script type="text/javascript">
+    (function(){
+        var url = '/ajax/tongji?action_id=6&record_id=0';
+        Vue.prototype.$http.post(url);
+    })();
+
+    // 监听tap事件，解决 a标签 不能跳转页面问题
+    mui('body').on('tap','a',function(){document.location.href=this.href;});
+
+
+</script>
+{block name="script"}{/block} 
+<div class="hidden">
+	{block name="hidden"}{/block}
+</div>
+<script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : "http://");
+//    document.write(unescape("%3Cspan id='cnzz_stat_icon_1265743932'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1265743932%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    mui('.mui-bar-tab').on('tap', 'a', function() {
+        location.href = this.getAttribute('href');
+    })
+</script>
+</body>
+</html>

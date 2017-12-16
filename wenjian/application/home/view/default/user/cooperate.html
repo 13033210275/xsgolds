@@ -1,0 +1,19 @@
+{extend name="base/common"/}
+
+ 
+ 
+{block name="body"} 
+<div class="contact">
+    <div class="hbox">
+        <img src="__PUBLIC__/home/images/gold.png" alt="" />
+    </div>
+    <div class="dbox">
+        <p>公司名称：{:config('company')}</p>
+        <p>联&nbsp; 系&nbsp; 人：{:config('contact_name')}</p>
+        <p>联系手机：{:config('contact_phone')}</p>
+        <p>公司电话：{:config('tel')}</p>
+        <p>商务邮箱：{:config('email')}</p>
+        <p>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：{:config('address')}</p>
+    </div>
+</div>
+{/block} 

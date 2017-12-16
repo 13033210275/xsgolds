@@ -1,0 +1,75 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+    <h2>上架配置</h2>
+</div>
+
+<div class="search-form ">
+    IOS环境：<br><br>
+    <div class="fl">
+        {$IosSelect}
+    </div>
+    <br><br><br>
+    Android环境：<br><br>
+    <div class="fl">
+        {$AndrosidSelect}
+    </div>
+    <br><br><br>
+    <div class="f">
+        <a class="sch-btn" href="javascript:;" id="search" url="{:url('status')}">更新</a>
+        <a class="btn" href="javascript:;" id="reset" url="{:url('status')}">重置</a>
+    </div>
+
+</div>
+<!--<div>
+    Android环境：
+    {eq name="android_status" value="1"}
+    <a href="javascript:" data-url="{:url('Config/changeStatus')}" data-type="android_status" data-value="0" class="statusBtns">禁用</a>
+    {else/}
+    <a href="javascript:" data-url="{:url('Config/changeStatus')}" data-type="android_status" data-value="1" class="statusBtns">启用</a>
+    {/eq}
+</div><br>
+<div>
+    IOS环境：
+    {eq name="ios_status" value="1"}
+    <a href="javascript:" data-url="{:url('Config/changeStatus')}" data-type="ios_status" data-value="0" class="statusBtns">禁用</a>
+    {else/}
+    <a href="javascript:" data-url="{:url('Config/changeStatus')}" data-type="ios_status" data-value="1" class="statusBtns">启用</a>
+    {/eq}
+</div>-->
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $("#search").click(function(){
+        var url = $(this).attr('url');
+        var android_type = $("#android_type").find("option:selected").val();
+        var ios_type = $("#ios_type").find("option:selected").val();
+
+        window.location.href = url+"?android_status="+android_type+"&ios_status="+ios_type;
+    });
+    $("#reset").click(function(){
+        var url = $(this).attr('url');
+
+        window.location.href = url+"?android_status=0&ios_status=0";
+    });
+
+    /*$('.statusBtns').on('click', function(event) {
+        var url = $(this).data('url'),
+                value = $(this).data('value'),
+                type = $(this).data('type');
+        if(!url || url==undefined || !type || type==undefined){
+            return;
+        }
+        $.post(url, {'value': value,'type':type}, function(json) {
+            if(json.error==0){
+                success('操作成功');
+            }else{
+                layer.msg(json.message);
+            }
+        },'json');
+
+    });*/
+</script>
+{/block}

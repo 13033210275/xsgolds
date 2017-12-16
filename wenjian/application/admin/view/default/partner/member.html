@@ -1,0 +1,57 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf">
+		<div class="search-form ">
+			<div class="f">
+				<a class="fl btn" href="{:url('client')}">客户列表</a>
+				<a class="fl btn" href="{:url('loan')}">客户借款列表</a>
+				<a class="fl btn" href="{:url('day')}">每日统计</a>
+				<a class="fl btn" href="{:url('month')}">每月统计</a>
+				<a class="fl btn sch-btn" style="{if $hasMember eq 1}display:inline{else}display: none{/if}" href="{:url('member')}">成员列表</a>
+			</div>
+
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+			<th class="">姓名</th>
+			<th class="">手机号</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.truename} </td>
+			<td>{$vo.mobile}</td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="3" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+
+	<div>
+		<div class="page fr">
+	        {$_page}
+	    </div>
+	</div>
+
+{/block}
+
+{block name="script"}
+	<script type="text/javascript">
+		highlight_subnav('{:url('Partner/client')}');
+	</script>
+{/block}

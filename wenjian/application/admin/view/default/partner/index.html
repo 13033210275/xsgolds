@@ -1,0 +1,97 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<!-- 标题栏 -->
+<div class="main-title">
+	<h2>{$meta_title}</h2>
+</div>
+
+<div class="cf">
+	<div class="search-form ">
+		<div class="sleft">
+			中介名称：<input type="text" name="wd" id="wd" class="search-input " value="{:input('wd')}" placeholder="">
+		</div>
+		<div class="f">
+			<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}">搜索</a>
+			{if condition="$wd neq ''"}
+			<a class="btn" href="{:url('index')}">取消</a>
+			{/if}
+		</div>
+	</div>
+</div>
+
+<div class="data-table table-striped">
+	<table class="">
+		<thead>
+		<tr>
+			<th class="">编号</th>
+			<th class="">中介名称</th>
+			<th class="">管理者手机</th>
+			<th class="">成员数</th>
+			<th class="">状态</th>
+			<th class="">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id}</td>
+			<td>{$vo.partname}</td>
+			<td>{$vo.member.mobile}</td>
+			<td><a href="../partment/user.html?wd=&part_id={$vo.id}" >{$vo.num}</a></td>
+			<td>{$vo.status_text}</td>
+			<td>
+				{eq name="vo.status" value="1"}
+				<a  href="{:url('changeStatusClose?cmd=forbid&id='.$vo['id'])}" >禁用</a>
+				{else/}
+				<a href="{:url('changeStatusOpen?cmd=forbid&id='.$vo['id'])}">启用</a>
+				{/eq}
+			</td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+		</tbody>
+	</table>
+
+</div>
+
+<div>
+	<div class="page fr">
+		{$_page}
+	</div>
+</div>
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+
+	highlight_subnav('{:url('Partner/index')}');
+
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var wd = $("#wd").val();
+		if(!wd){
+			layer.msg('请输入搜索关键字');
+			return;
+		}
+		if( url.indexOf('?')>0 ){
+			url += '&wd=' + wd;
+		}else{
+			url += '?wd=' + wd;
+		}
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+</script>
+{/block}

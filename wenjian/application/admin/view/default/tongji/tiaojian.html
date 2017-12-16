@@ -1,0 +1,181 @@
+{extend name="public/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<div class="cf">   
+		<div class="search-form ">
+			<form action="{:url()}" method="get" id="form">
+			<div class="sleft">
+				开始日期： <input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd120" value="{$sdate}" placeholder=""> 
+			</div>
+			<div class="sleft">
+				结束日期：<input type="text" name="edate" id="edate" class="search-input laydate-icon wd120" value="{$edate}" placeholder="">
+			</div> 
+			<div class="fl">
+				<a class="sch-btn" href="javascript:;" id="search" >搜索</a>
+            	<button class="fl btn export" url="{$exportUrl}" target-form="ids">导出</button>
+
+				<a href="{:url('Tongji/tiaojian',['d'=>'today'])}" class="fl btn {if condition="$d eq 'today'"} sch-btn {/if}">今天</a>
+				<a href="{:url('Tongji/tiaojian',['d'=>'yestoday'])}" class="fl btn {if condition="$d eq 'yestoday'"} sch-btn {/if}">昨天</a>
+				<a href="{:url('Tongji/tiaojian',['d'=>7])}" class="fl btn {if condition="$d eq 7"} sch-btn {/if}">近7天</a>
+				<a href="{:url('Tongji/tiaojian',['d'=>30])}" class="fl btn {if condition="$d eq 30"} sch-btn {/if}">近30天</a>
+			</div> 
+			</form> 
+
+			<div class="tongj">
+				&nbsp;&nbsp;&nbsp;{$typeRadio}
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+
+    <div class="data-table table-striped">
+
+    	{if condition="$type eq 1"}
+		<table class="">
+		    <thead>
+		        <tr>
+					<th class="">时间</th>
+					<th class="">0~1000元</th>
+					<th class="">1000~5000元</th>
+					<th class="">5000~10000元</th>
+					<th class="">10000~20000元</th>
+					<th class="">20000元以上</th>  
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
+				<tr>
+					<td>{$vo.date} </td>
+					<td>{$vo.cash1}</td>
+					<td>{$vo.cash2}</td>
+					<td>{$vo.cash3}</td>
+					<td>{$vo.cash4}</td>
+					<td>{$vo.cash5}</td>   
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="6" class="text-center"> aOh! 暂时还没有数据! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+		
+		{elseif condition="$type eq 2" /}
+		<table class="">
+		    <thead>
+		        <tr>
+					<th class="">时间</th>
+					<th class="">0~1个月</th>
+					<th class="">1~3个月</th>
+					<th class="">3~6个月</th>
+					<th class="">6~9个月</th>
+					<th class="">9~12个月</th>  
+					<th>12~15个月</th>
+					<th>15~18个月</th>
+					<th>18~21个月</th>
+					<th>21~24个月</th>
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
+				<tr>
+					<td>{$vo.date} </td>
+					<td>{$vo.m1}</td>
+					<td>{$vo.m2}</td>
+					<td>{$vo.m3}</td>
+					<td>{$vo.m4}</td>
+					<td>{$vo.m5}</td>   
+					<td>{$vo.m6}</td> 
+					<td>{$vo.m7}</td> 
+					<td>{$vo.m8}</td> 
+					<td>{$vo.m9}</td> 
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="10" class="text-center"> aOh! 暂时还没有数据! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+		{elseif condition="$type eq 3" /}
+		<table class="">
+		    <thead>
+		        <tr>
+					<th class="">时间</th>
+					<th class="">成功率高</th>
+					<th class="">速度快</th>
+					<th class="">利率低</th>
+					<th class="">额度高</th>
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
+				<tr>
+					<td>{$vo.date} </td>
+					<td>{$vo.t1}</td>
+					<td>{$vo.t2}</td>
+					<td>{$vo.t3}</td>
+					<td>{$vo.t4}</td> 
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="5" class="text-center"> aOh! 暂时还没有数据! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+	    {/if}
+	</div>
+
+
+
+	 
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+
+	<script type="text/javascript">
+	highlight_subnav('{:url('Tongji/tiaojian')}');
+
+	//搜索功能
+	$("#search").click(function(){
+		$('#form').submit();
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    
+    $(".type").click(function(event) {
+    	 var val = $(this).val();
+    	 var url = "{:url('tiaojian')}";
+    	 if( url.indexOf('?')>0 ){
+            url += '&' + 'type='+val;
+        }else{
+            url += '?' + 'type='+val;
+        }
+		window.location.href = url;
+    });
+
+     laydate({
+	  elem: '#sdate', 
+	  event: 'focus' 
+	});
+	laydate({
+	  elem: '#edate',
+	  event: 'focus' 
+	});
+	 
+
+	</script>
+{/block}

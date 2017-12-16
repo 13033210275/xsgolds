@@ -1,0 +1,49 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+	 
+	
+
+	<!-- 数据列表 -->
+    <div class="data-table table-striped">
+		<table class="">
+		    <thead>
+		        <tr>
+					<th >编号</th>
+					<th class="">用户手机</th>
+					<th class="">放款机构</th> 
+					<th class="">申请额度</th>  
+					<th class="">放款金额</th>    
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="list"}
+				{volist name="list" id="vo"}
+				<tr>
+					<td>{$vo.id} </td> 
+					<td>{$vo.phone}</td>
+					<td><span>{$vo.mert.name}</span></td>  
+					<td>¥ {$vo.apply_cash}</td> 
+					<td>¥ {$vo.loan_cash}
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="5" class="text-center"> Oh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+	</div>
+{/block}
+
+
+{block name="script"}
+    <script type="text/javascript">
+        highlight_subnav('{:url('Merchant/tongji')}');
+    </script>
+{/block}
+
+
+ 

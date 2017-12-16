@@ -1,0 +1,110 @@
+{extend name="public/base" /}
+
+{block name="body"} 
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+	<div class="cf">  
+		<div class="search-form ">
+			<div class="fl fz12 flsplit"> 
+				用户评分：{$uscoreSelect} 
+			</div>  
+			<div class="fl fz12 flsplit">
+				<span class="wd10"></span>
+				平台评分：{$sscoreSelect} 
+			</div>
+			<div class="sleft"> 
+				<input type="text" name="wd" class="search-input " value="{:input('wd')}" placeholder="机构ID/机构名称"> 
+			</div>
+			<div class="f">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('index')}">搜索</a>
+			</div>
+		</div>
+		<div class="fr">
+			<a class="btn" href="{:url('add')}">新 增</a>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">机构ID</th>
+		<th class="">机构名称</th>
+		<th class="">用户评分</th>
+		<th class="">平台评分</th>
+		<th class="">启用平台评分</th>
+		<th class="">操作</th>  
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="list"}
+		{volist name="list" id="vo"}
+		<tr>
+			<td>{$vo.create_time|usedate} </td>
+			<td>{$vo.mert_id}</td>
+			<td>{$vo.mert.name}</td>
+			<td>{$vo.user_score}</td>
+			<td>{$vo.sys_score}</td>
+			<td>{$vo.use_sys?'是':'否'}</td> 
+			<td>
+				<a href="{:url('Web/edit?id='.$vo['id'])}" class="authorize">编辑</a>
+            </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+
+	<div class="page fr">
+	        {$page}
+	</div>
+    
+{/block}
+
+{block name="script"}
+	<script src="__PUBLIC__/static/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+
+	$("#uscore,#sscore").change(function(event) {
+		 var val = $(this).val();
+		 var name = $(this).attr('name');
+		 var url = window.location.href;
+		 if(url.indexOf('?')>0 ){
+            url += '&' + name+"="+val;
+         }else{
+            url += '?' + name+"="+val;
+         }
+		 window.location.href = url;
+	});
+
+
+    //导航高亮
+    highlight_subnav('{:url('Web/index')}');
+	</script>
+{/block}

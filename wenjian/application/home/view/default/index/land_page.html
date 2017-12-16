@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>小树Golds</title>
+    <link rel="stylesheet" href="__PUBLIC__/home/css/land_page.css">
+    <style>.land_pop_ups #pop_ups_img{background: url(__PUBLIC__/home/images/land_tanc.png) no-repeat;background-size: 100% 100%}.btn_disable{color: #e9ae1a}  .yan{opacity: 0.8} .none{display: none</style>
+    <script src="__PUBLIC__/home/js/jquery-1.11.1.min.js"></script>
+    <script>
+        (function(root) {
+            root._tt_config = true;
+            var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+            ta.src = document.location.protocol + '//' + 's3.pstatp.com/bytecom/resource/track_log/src/toutiao-track-log.js';
+            ta.onerror = function () {
+                var request = new XMLHttpRequest();
+                var web_url = window.encodeURIComponent(window.location.href);
+                var js_url  = ta.src;
+                var url = '//ad.toutiao.com/link_monitor/cdn_failed?web_url =' + web_url + '&js_url=' + js_url + '&convert_id=70564377558';
+                request.open('GET', url, true);
+                request.send(null);
+            }
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ta, s);
+        })(window);
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div>
+        <img src="__PUBLIC__/home/images/land_nav.png" alt="">
+    </div>
+    <div class="intermediate">
+        <form action="" method="post">
+            <div class="segment">
+                <img src="__PUBLIC__/home/images/land_phone.png" alt="" class="phone">
+                <input maxlength="11" type="text" placeholder="请输入手机号" onkeyup="value=value.replace(/[^0-9]/g,'')" id="inp_phone" class="inp_phone">
+            </div>
+            <div class="segment">
+                <img src="__PUBLIC__/home/images/land_shield.png" alt="" class="shield">
+                <input maxlength="6" type="text" placeholder="请输入验证码" onkeyup="value=value.replace(/[^0-9]/g,'')" id="inp_shield" class="inp_shield">
+                <hr class="line">
+                <p class="ver_code" id="ver_code">获取验证码</p>
+            </div>
+            <div class="segment">
+                <div id="take_money" class="take_money">马上拿钱</div>
+                <div class="land_bottom">
+                    <img src="__PUBLIC__/home/images/land_jitou.png" alt="">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="land_pop_ups" style="display: none">
+        <div id="pop_ups_img">
+            <p class="land_jump">(<span id="num">3s</span>)正在为您跳转...</p>
+        </div>
+    </div>
+    <div>
+        <img style="position: absolute" src="__PUBLIC__/home/images/land_foot.png" alt="">
+    </div>
+    <div id="pop_up" class="pop_ups none"></div>
+</div>
+<script>
+    window.onload=function() {
+        $("#ver_code").click(function () {
+            if($(this).hasClass("btn_disable")){
+                return false;
+            }
+            // var  reg=/^1[3|4|5|8][0-9]\d{4,8}$/;
+            var  reg= /^1[0-9]{10}$/;
+            if(!reg.test($("#inp_phone").val()))
+            {
+                $(".pop_ups").show().delay(3000).text("请输入正确的手机号").hide(1);
+//                alert("请输入正确的手机号");
+                return false;
+            }
+            if($("#inp_phone").val().length == 0)
+            {
+                $(".pop_ups").show().delay(3000).text("请输入正确的手机号").hide(1);
+//                alert("请输入正确的手机号");
+                return false;
+            }
+            //验证码
+            //var ajaxurl = '{url x="index" r="flow#get_register_verify"}';
+            var ajaxurl = '../ajax/getCodes';
+            $.ajax({
+                url: ajaxurl,
+                data:{'phone':$("#inp_phone").val()},
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    if(result.error==0)
+                    {
+                        $("#ver_code").addClass('btn_disable');
+                        countdown($("#ver_code"), 60);
+                    }else if(result.error==1){
+                        $(".pop_ups").show().delay(3000).text(result.message).hide(1);
+//                        alert(result.message);
+                        return false;
+                    } else
+                    {
+                        $(".pop_ups").show().delay(3000).text(result.message).hide(1);
+//                        alert(result.message);
+                        $(this).removeClass("btn_disable");
+                    }
+                },error:function(){
+
+                }
+            });
+
+
+        });
+        $("#take_money").click(function () {
+            var browser={
+                versions:function(){
+                    var u = navigator.userAgent,
+                            app = navigator.appVersion;
+                    return {
+                        trident: u.indexOf('Trident') > -1, //IE内核
+                        presto: u.indexOf('Presto') > -1, //opera内核
+                        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+                        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                        android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+                        iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+                        iPad: u.indexOf('iPad') > -1, //是否iPad
+                        webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+                        weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+                        qq: u.match(/\sQQ/i) == " qq" //是否QQ
+                    };
+                }(),
+                language:(navigator.browserLanguage || navigator.language).toLowerCase()
+            }
+            var sor_code = '';
+            var borrowVersions = browser.versions;
+            if(borrowVersions.android && borrowVersions.weixin) {
+                sor_code = 2111000001;
+            }else if(borrowVersions.android && !borrowVersions.weixin){
+                sor_code = 2119000001;
+            }else if(borrowVersions.ios && borrowVersions.weixin) {
+                sor_code = 2211000001;
+            }else if(borrowVersions.ios && !borrowVersions.weixin){
+                sor_code = 2219000001;
+            }
+
+            var url = '../ajax/regs';
+            var sid = '';
+            if(Util.getUrlString('sid')){
+                sid = Util.getUrlString('sid');
+            }
+            $.ajax({
+                url: url,
+                data: {
+                    "phone":$("#inp_phone").val(),
+                    "code":$("#inp_shield").val(),
+                    "sor_code":sor_code,
+                    "sid":sid
+                },
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    if(result.error==1) {
+                        $(".pop_ups").show().delay(3000).text(result.message).hide(1);
+//                        alert(result.message);
+                        return false;
+                        /*var user = {
+                         user_id:result.user_id ,
+                         token: result.token,
+                         user_name: result.user_name
+                         }
+                         localStorage.setItem('user', JSON.stringify(user));*/
+
+                    }else if(result.error == 2){
+                           location.href ="http://www.xsgolds.com/home/product/recommend";
+                        }
+                    else if(result.error == 3){
+                        //安卓端
+                        location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.xsgolds.xsgolds";
+                    }
+                    else if(result.error ==0 || result.error == 4){
+                        //今日头条渠道
+                        if(getQueryStringByName('sid') == 'MDAwMDAwMDAwMIObsWaFi5lv' || getQueryStringByName('sid') == 'MDAwMDAwMDAwMIR1y62FoY9v' || getQueryStringByName('sid') == 'MDAwMDAwMDAwMIR1y62FsZ1v' || getQueryStringByName('sid') == 'MDAwMDAwMDAwMIR1y62Ge39v' || getQueryStringByName('sid') == 'MDAwMDAwMDAwMIR1y62Ge49v'){
+                            _taq.push({convert_id: "70564377558", event_type: "form"});
+                        }
+                        //百度统计
+                        if( getQueryStringByName('sid') == 'MDAwMDAwMDAwMISbx66FoZ1v'){
+                            var _bdSiteToken="EXTRA-5DC9899A48691E4420403064B0E13719";var _bdSite=document.createElement('script');_bdSite.src='https://isite.baidu.com__PUBLIC__/statv2.min.js?EXTRA-5DC9899A48691E4420403064B0E13719&r='+Math.floor((+new Date())/(864e5));var _s=document.getElementsByTagName('script')[0];_s.parentNode.insertBefore(_bdSite, _s);
+                        }
+
+                          $(".land_pop_ups").show();
+                            jump(3);
+                        }
+                    else{
+                            $(".pop_ups").show().delay(3000).text("无效参数").hide(1);
+//                            alert("无效参数");
+                            return false;
+                        }
+                },error:function(){
+                }
+            });
+        });
+
+        //获取url来源渠道
+        function getQueryStringByName(name){
+            var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
+            if(result == null || result.length < 1){
+                return "";
+            }
+            return result[1];
+        }
+
+        //短信验证码倒计时
+        function countdown(obj, t) {
+            if (t <= 0) {
+                obj.removeClass('btn_disable').html("获取验证码");
+                return;
+
+            }
+            --t;
+            obj.html(t + 'S后重发');
+            setTimeout(function() {
+                countdown(obj, t);
+            }, 1000)
+        }
+
+        //倒计时3秒后跳转
+        function jump(count) {
+            window.setTimeout(function(){
+                count--;
+                if(count > 0) {
+                    $("#num").html(count+"s");
+                    jump(count);
+                } else {
+                    location.href="http://www.xsgolds.com/home/product/recommend";
+                }
+            }, 1000);
+        }
+//        jump(3);
+        function jumps(count) {
+            window.setTimeout(function(){
+                count--;
+                if(count > 0) {
+                    $("#num").html(count+"s");
+                    jumps(count);
+                } else {
+                    //安卓端
+                    location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.xsgolds.xsgolds";
+                }
+            }, 1000);
+        }
+
+
+    };
+    window.Util = {
+        getUrlString:function(key){
+            var reg=new RegExp("(^|&)" + key + "=([^&]*)(&|$)","i");
+            var r=window.location.search.substr(1).match(reg);
+            if(r!=null){
+                return (r[2]);
+            }
+            return null ;
+        },
+    }
+</script>
+
+</body></html>

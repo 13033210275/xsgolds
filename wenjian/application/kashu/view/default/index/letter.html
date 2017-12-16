@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>信用卡</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="__PUBLIC__/home/css/mui.min.css" rel="stylesheet" />
+		<link href="__PUBLIC__/kashu/css/letter.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+		<!--信用卡内容盒子模块 start-->
+		<div class="mui-content">
+			<div class="letter_img">
+				<img src="__PUBLIC__/kashu/images/index_cards/banner.gif">
+			</div>
+
+			<div class="letter_credit">
+				<div class="letter_top">
+					<img src="__PUBLIC__/kashu/images/index_cards/jingxuan.png">
+					<span>精选卡</span>
+				</div>
+
+				<div class="letter_list">
+					<div class="letter_listThree">
+						<img src="__PUBLIC__/kashu/images/index_cards/yhk2.jpg">
+						<div class="letter_span">民生银行信用卡</div>
+						<div class="letter_font">强烈推荐：60秒出结果，极速发卡</div>
+					</div>
+					<div class="letter_listThree">
+						<img src="__PUBLIC__/kashu/images/index_cards/yhk.jpg">
+						<div class="letter_span">浦发银行信用卡</div>
+						<div class="letter_font">强烈推荐：60秒出结果，极速发卡</div>
+					</div>
+					<div class="letter_listThree">
+						<img src="__PUBLIC__/kashu/images/index_cards/yhk3.jpg">
+						<div class="letter_span">中信银行信用卡</div>
+						<div class="letter_font">强烈推荐：60秒出结果，极速发卡</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="over"></div>
+
+			<div class="listing">
+				<div class="listing_top">
+					<img src="__PUBLIC__/kashu/images/index_cards/aijiaoyuanyou.png">
+				</div>
+
+				<div class="listing_list">
+					<div class="listing_listbox">
+						<div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/main.png"></div>
+						<div class="list_right">年费全免；开卡无需消费即享信用卡终身免年费。</div>
+					</div>
+
+					<div class="listing_listbox">
+						<div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/chuguo.png"></div>
+						<div class="list_right">出国无忧；境外交易货币转换优惠，外币消费，人民币还款。</div>
+					</div>
+
+					<div class="listing_listbox">
+						<div class="list_left"><img src="__PUBLIC__/kashu/images/index_cards/jifen.png"></div>
+						<div class="list_right">积分加倍；生日当天消费3倍积分，每月特权日消费3倍积分。</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!--返回首页-->
+			<a href="/home">
+				<div class="home_f"><img src="__PUBLIC__/kashu/images/index_cards/home.png"></div>
+			</a>
+
+
+		</div>
+		<!--信用卡内容盒子模块 end-->
+		<div class="nobd">
+			<ul class="mui-table-view mui-row" v-if="list" v-cloak>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in list">
+					<a :href="item.url" :data-id="item.id">
+						<img class="mui-media-object mui-pull-left" :src="item.img" :alt="item.title" />
+						<div class="mui-media-body">
+							{{item.title}}
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>

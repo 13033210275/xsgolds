@@ -1,0 +1,134 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div> 
+	<div class="cf">  
+		<form action="">
+		<div class="search-form ">
+			<div class="sleft"> 
+				关键字：<input type="text" name="wd" class="search-input " value="{:input('wd')}" placeholder="机构ID/机构名称/用户ID"> 
+			</div>
+			<div class="sleft"> 
+				评论时间：<input type="text" name="sdate" id="sdate" class="search-input laydate-icon wd100 " value="{:input('sdate')}" >
+			</div>
+			<div class="fl flsplit">至</div>
+			<div class="sleft"> 
+				<input type="text" name="edate" id="edate" class="search-input laydate-icon wd100" value="{:input('edate')}" > 
+			</div>
+			<div class="fl fz12"> 
+				申请状态：{$typeSelect} 
+			</div>  
+			<div class="fl fz12">
+				<span class="wd10"></span>
+				评分：{$scoreSelect}
+				<span class="wd10"></span>
+			</div>
+			
+			<div class="f"> 
+				<a class="sch-btn" href="javascript:;" id="search" url="{:url('comment')}">搜索</a>
+			</div>
+		</div> 
+		</form>
+    </div>
+	
+	<!-- 数据列表 -->
+    <div class="data-table table-striped">
+		<table class="">
+		    <thead>
+		        <tr>
+					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+					<th >编号</th>
+					<th class="">机构ID</th>
+					<th class="">机构名称</th>
+					<th class="">评论会员名</th>
+					<th class="">类型</th>
+					<th class="">综合评分</th>
+					<th class="">评论时间</th>
+					<th class="">内容</th>  
+					<th class="">操作</th> 
+				</tr>
+		    </thead>
+		    <tbody>
+				{notempty name="list"}
+				{volist name="list" id="vo"}
+				<tr>
+		            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+					<td>{$vo.create_time|usedate}</td>
+					<td>{$vo.mert_id}</td>
+					<td>{$vo.mert_name}</td>
+					<td>{$vo.user_name}</td> 
+					<td>{$vo.type|getCommentType}</td>
+					<td>{$vo.score}</td>
+					<td>{$vo.create_time} </td>
+					<td>{$vo.contents}</td>
+					<td>
+						<a href="{:url('Web/changeStatus?method=postComment&id='.$vo['id'])}" class="ajax-get">恢复</a>  |
+		                <a href="{:url('Web/changeStatus?method=delcomment&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+		            </td>
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="11" class="text-center"> Oh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+	    </table>
+	</div>
+
+	{notempty name="list"}
+	<div>
+		<div class="fl">
+			<button class="btn ajax-post confirm" url="{:url('changeStatus?method=deleteComment')}" target-form="ids">恢 复</button>
+		</div>
+		<div class="page fr">
+		        {$page}
+		</div>
+	</div>
+	{/notempty}
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="/static/static/laydate/laydate.js"></script>
+<script>
+highlight_subnav('{:url('Web/recycle')}');
+//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+
+	$("#score,#status,#type").change(function(event) {
+		 var val = $(this).val();
+		 var name = $(this).attr('name');
+		 var url = window.location.href;
+		 if(url.indexOf('?')>0 ){
+            url += '&' + name+"="+val;
+         }else{
+            url += '?' + name+"="+val;
+         }
+		 window.location.href = url;
+	});
+
+
+laydate({
+  elem: '#sdate', 
+  event: 'focus' 
+});
+laydate({
+  elem: '#edate',
+  event: 'focus' 
+});
+</script>
+{/block}
+
+ 

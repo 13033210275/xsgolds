@@ -1,0 +1,22 @@
+{
+	'error': 0,
+    'message':'',
+    'data': [
+        {
+			'link':'#',
+			'img':'static/images/bn.jpg'
+		},
+		{
+			'link':'#',
+			'img':'static/images/bn.jpg'
+		},
+		{
+			'link':'#',
+			'img':'static/images/bn.jpg'
+		},
+		{
+			'link':'#',
+			'img':'static/images/bn.jpg'
+		}
+    ]
+}
